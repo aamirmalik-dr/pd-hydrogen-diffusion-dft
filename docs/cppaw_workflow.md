@@ -35,6 +35,10 @@ For the path, `scripts/build_path_inputs.py` takes the octahedral structure file
 
 The value CP-PAW prints is the linear form evaluated on Cartesian positions in bohr, a (g - 2/3): -4.90 bohr at O and +2.45 bohr at T. `pdhdiff.structure.constraint_value_to_g` converts it back.
 
+## Convergence control
+
+The `STOP=T` autopilot of `!RDYN` ends the relaxation on the energy and the ionic kinetic energy. With the friction schedule used here (`FRIC(-)=0.0`, `FRIC(+)=0.01`) the heavy Pd cage was still oscillating when the energy criterion was met, and the final friction phase froze it with residual forces of 0.3 to 1 eV/A on the atoms next to the hydrogen (see `results/RESULTS.md`, convergence section). The energies are converged to about a millielectronvolt regardless, because the residual displacements are along stiff coordinates, but a follow-up that needs converged geometries or forces should continue each stage-2 run from its restart file with `START=F`, a longer `NSTEP`, a higher constant ionic friction, and check in the last atom list of the protocol that the forces on the free atoms have dropped below 1 mH/bohr.
+
 ## Extending the study
 
-Sensible next runs with the same inputs: `!KPOINTS R=30` and `R=40` to test the barrier against k-point density; a 3 x 3 x 3 cubic supercell (108 Pd) for the cell-size error; extra path points at x = 0.05, 0.95 and 1.05 to pin the curvatures; and the reverse path T to O started from the relaxed T structure as a consistency check of the constraint approach.
+Sensible next runs with the same inputs: the force-converged continuation above; `!KPOINTS R=30` and `R=40` to test the barrier against k-point density; a 3 x 3 x 3 cubic supercell (108 Pd) for the cell-size error; extra path points at x = 0.05, 0.95 and 1.05 to pin the curvatures; and the reverse path T to O started from the relaxed T structure as a consistency check of the constraint approach.

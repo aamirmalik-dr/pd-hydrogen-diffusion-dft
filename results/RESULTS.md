@@ -26,7 +26,7 @@ Electronic structure of the primitive cell (`electronic_structure.json`): d band
 | Octahedral, H at (0, 0, 1/2) a | -960.8412761 H | 0 | 1.955 to 1.966 A (six neighbours, ideal 1.945 A) | 337 |
 | Tetrahedral, H at (1/4, 1/4, 3/4) a | -960.8381902 H | +83.97 meV | 1.753 A (four neighbours, ideal 1.684 A) | 378 |
 
-Both are true minima: H stays at the high-symmetry position and the residual forces on the free atoms are below 1.5 mH/bohr (O) and 7.1 mH/bohr on the four cage atoms of the T site.
+In both runs the H atom stays at the high-symmetry position and the energy is stationary at the end. The structures are converged in energy but not in force; see the section on convergence below before quoting the geometries to better than 0.02 A.
 
 ## Energy profile along the reaction coordinate
 
@@ -36,14 +36,14 @@ Both are true minima: H stays at the high-symmetry position and the residual for
 |---|---|---|---|---|---|
 | 0.0 | -4.90 | -960.8412762 | 0.0 | 0.016 | 337 |
 | 0.1 | -4.17 | -960.8410758 | 5.5 | 0.021 | 355 |
-| 0.2 | -3.43 | -960.8404399 | 22.8 | 0.031 | 356 |
-| 0.3 | -2.70 | -960.8390136 | 61.6 | 0.051 | 361 |
-| 0.4 | -1.96 | -960.8370711 | 114.4 | 0.068 | 364 |
+| 0.2 | -3.43 | -960.8404399 | 22.8 | 0.031 | 348 |
+| 0.3 | -2.70 | -960.8390136 | 61.6 | 0.051 | 392 |
+| 0.4 | -1.96 | -960.8370711 | 114.4 | 0.068 | 368 |
 | 0.5 | -1.23 | -960.8352050 | 165.2 | 0.084 | 364 |
 | 0.6 | -0.49 | -960.8339712 | 198.8 | 0.095 | 361 |
-| 0.7 | 0.245 | -960.8339921 | 198.2 | 0.098 | 362 |
-| 0.8 | 0.98 | -960.8352027 | 165.3 | 0.094 | 366 |
-| 0.9 | 1.72 | -960.8370149 | 116.0 | 0.083 | 370 |
+| 0.7 | 0.245 | -960.8339921 | 198.2 | 0.098 | 360 |
+| 0.8 | 0.98 | -960.8352027 | 165.3 | 0.094 | 368 |
+| 0.9 | 1.72 | -960.8370149 | 116.0 | 0.083 | 375 |
 | 1.0 | 2.45 | -960.8381737 | 84.4 | 0.069 | 379 |
 
 Checks: the constraint value printed by CP-PAW equals a (g - 2/3) in bohr for every point; the end points agree with the unconstrained site energies to -0.003 meV (O) and +0.45 meV (T); the H atom deviates from the straight O to T line by less than 0.007 A.
@@ -103,6 +103,67 @@ Alternative conventions at 298 K, for comparison with the seminar slides and the
 | Populations from site energies only | 4.29 x 10^-10 |
 | Three-dimensional prefactor and no factor 1/2 (as on the seminar slides) | 2.78 x 10^-10 |
 
+## Sensitivity to the estimators
+
+`metrics.json`, block `sensitivity`. Each fitted quantity has more than one reasonable estimator; the table gives D(298 K) with one estimator changed at a time and the range over all combinations.
+
+| Quantity | Primary | Alternative | D(298 K) with the alternative |
+|---|---|---|---|
+| Barrier | local cubic, 203.8 meV | cubic spline, 203.0 meV | 2.47 x 10^-10 m^2/s |
+| Barrier | | highest calculated point, 198.8 meV | 2.91 x 10^-10 m^2/s |
+| k_O | least squares, 0.968 eV/g^2 | two-point, 1.091 eV/g^2 | 2.54 x 10^-10 m^2/s |
+| k_T | least squares, 7.31 eV/g^2 | two-point, 6.31 eV/g^2 | 2.39 x 10^-10 m^2/s |
+| All combinations | 2.39 x 10^-10 m^2/s | | 2.39 to 3.09 x 10^-10 m^2/s |
+
+The estimator choice moves D(298 K) by at most 30 %, less than the spread between the population conventions (factor 1.8) and far less than the gap to experiment (factor 7).
+
+## Classical isotope scaling
+
+With the same profile and classical harmonic TST only the attempt frequencies change, by sqrt(m_H / m): D_D / D_H = 0.707 and D_T / D_H = 0.578 at every temperature (`metrics.json`, block `isotopes_classical`). The measured isotope effect of hydrogen in Pd is governed by zero-point energy and tunnelling, which this treatment does not contain, so these ratios are the classical reference point and not a prediction.
+
+## Convergence of the relaxations
+
+`relaxation_diagnostics.json` and `figures/relaxation_diagnostics.png`, produced by `scripts/relaxation_diagnostics.py` from the periodic atom lists in the protocols.
+
+CP-PAW's autopilot ends a damped relaxation when the energy and the ionic kinetic energy stop changing, not when the forces vanish. The atom lists printed every 100 steps carry the forces that propagated the atoms, so they show what the runs looked like when they were stopped. Following the tetrahedral cage atom PD03 through the tetrahedral run:
+
+| Step | Pd-H distance (A) | Radial force on PD03, outward (eV/A) | E - E_final (meV) |
+|---|---|---|---|
+| 645 (start of the relaxation, ideal lattice) | 1.684 | +1.36 | +159 |
+| 700 | 1.687 | +1.17 | +144 |
+| 800 | 1.703 | +0.65 | +70 |
+| 900 | 1.729 | +0.04 | +8 |
+| 1000 | 1.752 | -1.08 | 0 |
+| 1022 (end) | 1.753 | -0.63 | 0 |
+
+The cage opens, the force crosses zero near 1.73 A, the atoms overshoot while the second shell is still relaxing, and the autopilot's final friction phase brings them to rest with an inward force left on them. The linear fit of force against distance gives a radial stiffness of 31 eV/A^2 for the cage atom (with the surroundings relaxing at the same time, so this is the soft response).
+
+Residual forces at the end of every stage-2 run (1 mH/bohr = 0.0514 eV/A):
+
+| Run | Largest force, free atoms (mH/bohr) | Largest force, constrained atoms (mH/bohr) | Energy drift, last 30 steps (meV) | Ionic T at the end (K) | Harmonic bound on the unrelaxed energy (meV) |
+|---|---|---|---|---|---|
+| octahedral | 1.5 | | -0.35 | 3 | 0.5 |
+| tetrahedral | 12.3 | | +0.22 | 1 | 26 |
+| g = 0.0 | 1.5 | 1.4 | -0.35 | 3 | 0.5 |
+| g = 0.1 | 8.3 | 11.8 | +0.14 | 2 | 26 |
+| g = 0.2 | 1.7 | 3.0 | -0.41 | 5 | 1.4 |
+| g = 0.3 | 1.9 | 4.4 | +0.41 | 1 | 0.4 |
+| g = 0.4 | 4.0 | 16.3 | +1.23 | 1 | 34 |
+| g = 0.5 | 4.3 | 17.1 | +0.33 | 1 | 37 |
+| g = 0.6 | 4.8 | 18.6 | +0.38 | 1 | 44 |
+| g = 0.7 | 5.6 | 19.6 | +0.38 | 2 | 49 |
+| g = 0.8 | 6.0 | 15.6 | +0.19 | 1 | 32 |
+| g = 0.9 | 7.5 | 13.6 | +0.16 | 1 | 26 |
+| g = 1.0 | 7.2 | 6.3 | +0.03 | 1 | 7 |
+
+The constrained atoms are the H atom and the three triangle atoms; their residual force includes the constraint reaction only for the H atom (the triangle coefficients are small), so the 12 to 20 mH/bohr on the triangle atoms are genuine unbalanced forces, up to 1 eV/A. The last column is the harmonic energy sum F^2 / 2k over the first-shell atoms with the 31 eV/A^2 stiffness, an upper estimate of how far each energy could sit above the fully relaxed value.
+
+That bound is far from tight, and the profile itself shows it. The residual forces vary erratically from point to point (12 mH/bohr at g = 0.1, 3 at g = 0.2, 4 at g = 0.3, 16 at g = 0.4) while the energies of these points lie on the octahedral parabola with an rms residual of 0.2 meV. An energy error proportional to F^2 would put a 25 meV kink between g = 0.1 and g = 0.2; there is none. The same holds at the barrier, where the four points around the maximum agree with a cubic spline through all points to 1 meV. The residual forces therefore lie along stiff coordinates of the cage and cost little energy: the energies of the profile are converged to the meV level, the geometries are not converged to better than about 0.02 A, and the printed forces must not be used as such.
+
+Two consequences. First, the Lagrange multiplier of the constraint, which equals dE/dVAL only at a constrained minimum, undershoots the slope of the fitted profile by 20 to 25 % on the octahedral side (right panel of the figure); its thermodynamic integration gives 47 meV at g = 1 against 84 meV directly. It is a check of the relaxation, not an independent route to the profile. Second, the agreement of the path end points with the unconstrained site runs (0.003 and 0.45 meV) is a reproducibility check of the constrained setup rather than a convergence proof: those pairs of runs start from the same structure and follow the same protocol.
+
+A force-converged rerun of the thirteen stage-2 calculations, continued from their restart files with a stricter stop criterion, is the first thing to do before quoting these energies to better than a few meV.
+
 ## What limits the accuracy
 
-In order of expected size: the PBE barrier (tens of meV), the missing zero-point energy (hbar omega differs by 66 meV between the O and T wells along the path alone), the one-dimensional harmonic prefactor, the coarse k-point grid and the 32-atom cell, and the neglect of correlated O to T to O return jumps. None of these was converged or corrected in the project; they are listed so the numbers above are read with the right error bars.
+In order of expected size: the PBE barrier (tens of meV), the missing zero-point energy (hbar omega differs by 66 meV between the O and T wells along the path alone), the one-dimensional harmonic prefactor, the coarse k-point grid and the 32-atom cell, the incomplete force convergence of the relaxations (meV level in the energies, see above), and the neglect of correlated O to T to O return jumps. None of these was converged or corrected in the project; they are listed so the numbers above are read with the right error bars.

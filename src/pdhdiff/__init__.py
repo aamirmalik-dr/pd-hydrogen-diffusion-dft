@@ -9,4 +9,4 @@ diffusion constant with one-dimensional harmonic transition-state theory.
 from pdhdiff import constants, cppaw_io, profile, structure, tst
 
 __all__ = ["constants", "cppaw_io", "profile", "structure", "tst"]
-__version__ = "0.1.0"
+__version__ = "0.2.0"

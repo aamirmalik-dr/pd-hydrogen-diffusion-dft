@@ -23,6 +23,10 @@ Complete inputs and protocol output of every run used in the project. Protocol f
 
 Stage 2 adds `!RDYN FRIC=0.01 STOP=T !AUTO ... !END !END` (atoms propagated) and `START=F` (restart from the stage-1 wave functions). The structure files set `LUNIT[AA]=3.89`, `!KPOINTS R=20.`, `EMPTY=5`, the `NDLSS` augmentation setups for Pd (10 valence electrons) and H (fictitious mass `M=2.` for the dynamics), and the atom list in units of the lattice constant.
 
+## Reading the protocols
+
+The `!>` trace lines give, per time step, the fictitious wave-function kinetic energy, the potential energy `E(RHO)`, the conserved energy and the two friction values. Every 100 steps and at the end the code prints an energy report, the constraint value and multiplier, and an atom list with positions and the forces that propagated the atoms in that step (`FORCE[MH/ABOHR]`, printed before the array is reset for the next step). The autopilot stops a run when the energy and the ionic kinetic energy have stopped changing; it does not test the forces. In these runs that left forces of up to 12 mH/bohr on the tetrahedral cage atoms and up to 20 mH/bohr on the triangle atoms at mid-path, with the energies stationary to about a millielectronvolt. `scripts/relaxation_diagnostics.py` extracts all of this; `results/RESULTS.md` discusses what it means for the numbers.
+
 ## Scrubbing
 
 Two strings were replaced before committing: the cluster account name under which CP-PAW was compiled (now `cluster-user`) and the compute-node name in the MPI report (now `compute-node`). Nothing else in the files was altered; energies, positions and timings are as written by the code.

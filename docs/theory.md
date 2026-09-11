@@ -38,6 +38,10 @@ D = 1/2 sum_i P_i sum_j Gamma(j <- i) (r_j - r_i) (x) (r_j - r_i)
 
 The factor 1/2 is the Einstein relation <dr (x) dr> = 2 D t; for a one-dimensional chain with spacing l and rate Gamma in each direction the formula gives D = Gamma l^2, the textbook result. The project description prints the expression without the 1/2; `diffusion_constant(..., einstein_half=False)` reproduces that convention. The geometric sums are isotropic in a cubic crystal, (a^2 / 2) 1 for hops out of O and (a^2 / 4) 1 for hops out of T, so D is a scalar.
 
+## Isotopes
+
+The Born-Oppenheimer profile does not depend on the mass, so in classical harmonic TST an isotope only rescales the attempt frequencies by sqrt(m_H / m): D_D / D_H = 0.707 and D_T / D_H = 0.577 at every temperature (`pdhdiff.tst.with_mass`). The measured isotope effect of hydrogen in metals is dominated by zero-point energy and tunnelling, so this classical ratio is a reference point, not a prediction.
+
 ## What is left out
 
 Zero-point energy of the H atom (hbar omega is 38 meV at O and 103 meV at T along the path, and different again at the saddle), tunnelling, the full 3N-dimensional harmonic prefactor of Vineyard's theory, anharmonic corrections to the wells, correlated return jumps from T back to the same O, finite-size and k-point convergence of the DFT energies, and the PBE error in the barrier itself. Each of these is a known correction; none was applied.

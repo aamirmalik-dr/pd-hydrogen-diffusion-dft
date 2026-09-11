@@ -1,8 +1,10 @@
 # pd-hydrogen-diffusion-dft
 
+[![ci](https://github.com/aamirmalik-dr/pd-hydrogen-diffusion-dft/actions/workflows/ci.yml/badge.svg)](https://github.com/aamirmalik-dr/pd-hydrogen-diffusion-dft/actions/workflows/ci.yml)
+
 First-principles energy profile, jump rates and diffusion constant of interstitial hydrogen in fcc palladium, computed with the CP-PAW code and post-processed with the Python package in this repository.
 
-*Origin: group project at the International CP-PAW Autumn School, Hands-on Course on Density-Functional Calculations, Goettingen, 31 August to 11 September 2026. The DFT runs were carried out on the school cluster by the project team; the post-processing code, figures and this write-up were built afterwards from the raw CP-PAW output.*
+*Origin: group project at the International CP-PAW Autumn School, Hands-on Course on Density-Functional Calculations, Göttingen, 31 August to 11 September 2026. The DFT runs were carried out on the school cluster by the project team; the post-processing code, figures and this write-up were built afterwards from the raw CP-PAW output.*
 
 ![Energy profile of the octahedral to tetrahedral hop and Arrhenius plot of the diffusion constant](figures/hero_profile_arrhenius.png)
 
@@ -26,7 +28,7 @@ All runs use PBE, the projector augmented wave setups listed in the input files,
 | 3 | 32 Pd + 1 H at the tetrahedral site T = (1/4, 1/4, 3/4) a | 8 | 166 | E = -960.83819 H, local minimum 84.0 meV higher, Pd-H 1.753 A (ideal 1.684 A, +4 %) |
 | 4 | Eleven constrained relaxations, reaction coordinate g = 0.0 to 1.0 in steps of 0.1 | 8 | 166 | Energy profile of the O to T hop, barrier 204 meV at g = 0.65 |
 
-Each hydrogen calculation ran in two stages: wave-function optimisation with frozen atoms, then a damped Car-Parrinello relaxation of all atoms with the constraint held. The end points of the constrained path reproduce the unconstrained site energies to 0.003 meV (O) and 0.45 meV (T).
+Each hydrogen calculation ran in two stages: wave-function optimisation with frozen atoms, then a damped Car-Parrinello relaxation of all atoms with the constraint held. The end points of the constrained path reproduce the unconstrained site energies to 0.003 meV (O) and 0.45 meV (T); the two runs of each pair start from the same structure, so this checks the constrained setup rather than convergence, which is examined separately below.
 
 ## The reaction coordinate
 
@@ -83,6 +85,17 @@ D = 1/2 sum_i P_i sum_j Gamma(j <- i) |r_j - r_i|^2 / 3
 
 with the factor 1/2 of the Einstein relation, sublattice populations P_oct and P_tet from the one-dimensional harmonic wells, and hop rates Gamma = (omega_0 / 2 pi) exp(-E_a / k_B T). With these choices the forward and backward fluxes between the sublattices balance exactly (`detailed_balance_ratio_300K = 1.000` in the metrics file), so the two terms of the sum are equal and D reduces to P_oct Gamma(T <- O) a^2 / 2. The Arrhenius figure also shows three alternative conventions: Boltzmann populations without a vibrational prefactor, the three-dimensional harmonic prefactor of the project description, and the expression without the factor 1/2 as it was used on the seminar slides. They change D(298 K) by at most a factor 1.8 and do not alter the conclusion.
 
+### Uncertainty budget
+
+| Source | Effect on D(298 K) | Where it is quantified |
+|---|---|---|
+| Choice of barrier and curvature estimators (local cubic, spline, raw maximum; least squares or two-point curvatures) | 2.4 to 3.1 x 10^-10 m^2/s | `sensitivity` block of `results/metrics.json` |
+| Population and Einstein-factor conventions | 1.4 to 4.3 x 10^-10 m^2/s | `alternatives_d_298K_m2_s` in `results/metrics.json` |
+| Incomplete force convergence of the relaxations | about 1 meV in the profile, negligible for D; geometries to 0.02 A | `results/relaxation_diagnostics.json` |
+| k-point grid, cell size, cutoff, PBE, zero-point energy, tunnelling | not quantified; the last two are the likely cause of the factor 7 | |
+
+Classical isotope scaling of the same model gives D_D / D_H = 0.71 and D_T / D_H = 0.58; the real isotope effect is quantum and outside this treatment.
+
 ## Electronic structure of the host
 
 | Density of states | Band structure |
@@ -91,15 +104,21 @@ with the factor 1/2 of the Einstein relation, sublattice populations P_oct and P
 
 The occupied states from -5.1 eV to E_F are Pd 4d; E_F sits on the sharp peak at the top of the nearly full d band, which is why fractional occupations (`!MERMIN`) are mandatory and why Pd is so reactive towards hydrogen. Integrating the occupied total DOS gives 9.96 electrons for the 10 valence electrons of the setup. The coarse R = 20 grid makes the DOS jagged, as the project description anticipates; it does not affect the energy differences used above.
 
-## Lattice response and convergence
+## Lattice response and convergence of the relaxations
 
-| Relaxed geometry along the path | Convergence of the constrained relaxations |
+| Relaxed geometry along the path | Energy during the constrained relaxations |
 |---|---|
 | ![Pd displacements and H offset along the path](figures/path_geometry.png) | ![Energy convergence of three relaxations](figures/relaxation_convergence.png) |
 
-The H atom stays on the straight O to T line to within 0.007 A; the lattice does the rest. The three triangle atoms move outward by up to 0.10 A near the barrier. Every relaxation reached the automatic stop criterion in 337 to 379 steps.
+The H atom stays on the straight O to T line to within 0.007 A; the lattice does the rest. The three triangle atoms move outward by up to 0.10 A near the barrier. Every relaxation reached the automatic stop criterion in 337 to 392 steps, with the energy drifting by less than 1.5 meV over the last 30 steps and the ions at 1 to 5 K.
 
 ![Relaxed H positions in the octahedral and tetrahedral cages](figures/path_structures.png)
+
+The runs are converged in energy but not in force. CP-PAW's autopilot stops on the energy and the ionic kinetic energy, and the periodic atom lists in the protocols, which carry the forces that propagated the atoms, show the cage atoms being caught mid-oscillation: the tetrahedral cage opens from 1.684 to 1.729 A, where the radial force crosses zero, overshoots to 1.753 A while the second shell is still relaxing, and is brought to rest by the final friction phase with 0.6 eV/A pointing back inward. Forces of up to 1 eV/A remain on the triangle atoms at mid-path.
+
+![Force on a cage atom during the relaxation and constraint force against profile slope](figures/relaxation_diagnostics.png)
+
+This does not reach the energies at the level that matters here. The residual forces jump erratically from point to point (12 mH/bohr at g = 0.1, 3 at g = 0.2, 16 at g = 0.4) while those energies lie on one parabola to 0.2 meV, so the forces sit along stiff coordinates of the cage and the profile is converged to about a millielectronvolt. Two things follow, both documented in [results/RESULTS.md](results/RESULTS.md): the geometries are good to about 0.02 A and no better, and the Lagrange multiplier printed by CP-PAW undershoots the slope of the profile by 20 to 25 % on the octahedral side, so it cannot be integrated to recover the barrier. A force-converged rerun from the committed restart inputs is the first item of any follow-up.
 
 ## Reproduce
 
@@ -119,8 +138,12 @@ python scripts/extract_profile.py           # calculations/ -> results/profile.c
 python scripts/analyze_diffusion.py         # fits, rates, D(T) -> results/metrics.json and figures
 python scripts/plot_electronic_structure.py # DOS and bands of bulk Pd
 python scripts/make_path_figures.py         # trajectory xyz, geometry and convergence figures
+python scripts/relaxation_diagnostics.py    # residual forces, cage stiffness, multiplier check
 python scripts/build_path_inputs.py         # regenerate the eleven constrained .strc inputs
+python scripts/check_reproduction.py        # regenerated results against the committed files
 ```
+
+Continuous integration runs the tests, the linters and the full chain followed by the reproduction check on Linux and Windows for Python 3.11 and 3.12.
 
 `notebooks/walkthrough.ipynb` is an executed notebook that goes through the same chain interactively. Verified on Windows 11 with Python 3.11 in a fresh virtual environment; the only dependencies are NumPy, SciPy and Matplotlib. CP-PAW itself is not needed to run anything here, only to redo the DFT.
 
@@ -131,8 +154,9 @@ calculations/   CP-PAW inputs (.strc, .cntl), gzipped protocols (.prot.gz), DOS 
   01_pd_primitive/  02_pd_supercell/  03_h_octahedral/  03_h_tetrahedral/  04_path_octa_to_tetra/g_0.0 ... g_1.0
 src/pdhdiff/    cppaw_io (parsers), structure (fcc sites, reaction coordinate, constraint block),
                 profile (energy profile and fits), tst (rates, populations, D), plotting, cli
-scripts/        the five processing steps and run_all.py
-results/        profile.csv, sites.json, metrics.json, diffusion_vs_T.csv, path_trajectory.xyz, RESULTS.md
+scripts/        the processing steps, run_all.py, check_reproduction.py
+results/        profile.csv, sites.json, metrics.json, diffusion_vs_T.csv, relaxation_diagnostics.json,
+                path_trajectory.xyz (extended xyz, readable by ASE), RESULTS.md
 figures/        all figures in this README, regenerated by the scripts
 docs/           theory.md (transition-state theory as used here), cppaw_workflow.md (how the runs were set up),
                 slides/ (the seminar presentation, PDF), media/ (hop animation), img/ (site schematics)
@@ -141,19 +165,19 @@ tests/          pytest suite
 
 ## Scope, honestly
 
-This is a course-scale calculation and is reported as such. One 32-atom supercell, 8 k-points, no cutoff or cell-size convergence study, no zero-point or tunnelling corrections, no isotope effect, a one-dimensional reaction coordinate instead of a nudged-elastic-band search, harmonic wells with the curvature taken along the path only, and uncorrelated hops. The barrier and the diffusion constant are therefore accurate to tens of meV and to an order of magnitude respectively, which is the level the comparison with experiment shows. The DFT runs themselves are not rerun here; the repository contains their complete inputs and outputs and the code that turns them into the numbers above.
+This is a course-scale calculation and is reported as such. One 32-atom supercell, 8 k-points, no cutoff or cell-size convergence study, relaxations converged in energy but not in force, no zero-point or tunnelling corrections, no quantum isotope effect, a one-dimensional reaction coordinate instead of a nudged-elastic-band search, harmonic wells with the curvature taken along the path only, and uncorrelated hops. The barrier and the diffusion constant are therefore accurate to tens of meV and to an order of magnitude respectively, which is the level the comparison with experiment shows. The DFT runs themselves are not rerun here; the repository contains their complete inputs and outputs and the code that turns them into the numbers above.
 
 ## References
 
-- P. E. Bloechl, Projector augmented-wave method, Phys. Rev. B 50, 17953 (1994). CP-PAW: https://cppaw.org
+- P. E. Blöchl, Projector augmented-wave method, Phys. Rev. B 50, 17953 (1994). CP-PAW: https://cppaw.org
 - G. H. Vineyard, Frequency factors and isotope effects in solid state rate processes, J. Phys. Chem. Solids 3, 121 (1957).
 - G. L. Powell and J. R. Kirkpatrick, Surface conductance and the diffusion of H and D in Pd, Phys. Rev. B 43, 6968 (1991).
-- J. Voelkl and G. Alefeld, in Hydrogen in Metals I, Topics in Applied Physics 28, Springer (1978).
+- J. Völkl and G. Alefeld, in Hydrogen in Metals I, Topics in Applied Physics 28, Springer (1978).
 - K. Lee, M. Yuan and J. Wilcox, Understanding deviations in hydrogen solubility predictions in transition metals through first-principles calculations, J. Phys. Chem. C 119, 19642 (2015).
 
 ## Acknowledgements
 
-The project was set up by the organisers of the CP-PAW Autumn School 2026 (https://cppaw.org/doku.php?id=handson:handson2026) and carried out together with Annika Koelle and Parsa Rahmani, who co-authored the seminar presentation in `docs/slides/`. The CP-PAW code is developed by Peter Bloechl and distributed under the GPL.
+The project was set up by the organisers of the CP-PAW Autumn School 2026 (https://cppaw.org/doku.php?id=handson:handson2026) and carried out together with Annika Kölle and Parsa Rahmani, who co-authored the seminar presentation in `docs/slides/`. The CP-PAW code is developed by Peter Blöchl and distributed under the GPL.
 
 ## Author
 
