@@ -188,6 +188,36 @@ def diffusion_constant(
     )
 
 
+def with_mass(
+    model: SiteModel, mass_amu: float, reference_mass_amu: float = MASS_H_AMU
+) -> SiteModel:
+    """Classical isotope substitution: scale both attempt frequencies by ``sqrt(m_ref / m)``.
+
+    The energy profile is mass independent in the Born-Oppenheimer approximation,
+    so in classical harmonic TST only the prefactors change. Quantum effects
+    (zero-point energy, tunnelling), which dominate the real isotope effect of
+    hydrogen, are not included.
+
+    Args:
+        model: Site model of the reference isotope.
+        mass_amu: Mass of the substituted isotope in atomic mass units.
+        reference_mass_amu: Mass used for ``model``.
+
+    Returns:
+        A new :class:`SiteModel` with scaled frequencies.
+    """
+    scale = float(np.sqrt(reference_mass_amu / mass_amu))
+    return SiteModel(
+        de_t_minus_o_ev=model.de_t_minus_o_ev,
+        ea_o_to_t_ev=model.ea_o_to_t_ev,
+        ea_t_to_o_ev=model.ea_t_to_o_ev,
+        omega_o=model.omega_o * scale,
+        omega_t=model.omega_t * scale,
+        mult_o=model.mult_o,
+        mult_t=model.mult_t,
+    )
+
+
 def arrhenius_fit(temperature_k: np.ndarray, d_m2_s: np.ndarray) -> tuple[float, float]:
     """Fit ``ln D = ln D0 - E_a / (k_B T)`` and return ``(E_a in eV, D0 in m^2/s)``."""
     x = 1.0 / (KB_EV * np.asarray(temperature_k, dtype=float))

@@ -26,6 +26,12 @@ MASS_H_AMU = 1.00794
 """Mass of a hydrogen atom in atomic mass units (the real mass, not the fictitious
 mass used for the Car-Parrinello dynamics in the CP-PAW input)."""
 
+MASS_D_AMU = 2.01410
+"""Mass of a deuterium atom in atomic mass units."""
+
+MASS_T_AMU = 3.01605
+"""Mass of a tritium atom in atomic mass units."""
+
 A_PD_ANG = 3.89
 """Lattice constant of fcc palladium used in every calculation, in angstrom."""
 
@@ -35,4 +41,4 @@ Kirkpatrick, Phys. Rev. B 43, 6968 (1991), as quoted in the project description.
 
 EA_EXP_EV = 0.23
 """Commonly quoted experimental activation energy of H diffusion in Pd in eV
-(Voelkl and Alefeld, Hydrogen in Metals I, 1978)."""
+(Völkl and Alefeld, Hydrogen in Metals I, 1978)."""

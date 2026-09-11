@@ -15,7 +15,14 @@ from pathlib import Path
 
 import numpy as np
 
-from pdhdiff.constants import A_PD_ANG, D_EXP_298K_M2_S, EA_EXP_EV, MASS_H_AMU
+from pdhdiff.constants import (
+    A_PD_ANG,
+    D_EXP_298K_M2_S,
+    EA_EXP_EV,
+    MASS_D_AMU,
+    MASS_H_AMU,
+    MASS_T_AMU,
+)
 from pdhdiff.plotting import hero_figure, plot_arrhenius, plot_energy_profile
 from pdhdiff.profile import (
     fit_octahedral_well,
@@ -31,9 +38,67 @@ from pdhdiff.tst import (
     diffusion_constant,
     force_constant_si,
     vibrational_quantum_mev,
+    with_mass,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def d_at(model: SiteModel, temperature_k: float, geo) -> float:
+    """Diffusion constant of ``model`` at one temperature with the primary conventions."""
+    return float(diffusion_constant(model, [temperature_k], geo).d_m2_s[0])
+
+
+def sensitivity(
+    model: SiteModel, barrier, well_o, well_t, e_t_ev: float, length: float, geo
+) -> dict:
+    """Spread of D(298 K) over the alternative estimators of the fitted quantities.
+
+    Barrier: local cubic (primary), cubic spline, highest calculated point.
+    Curvatures: least-squares fits (primary) and the two-point estimates from the
+    calculated point nearest to each minimum. The extreme combinations bound the
+    range that the choice of estimator alone can produce.
+    """
+    barriers = {
+        "local_cubic": barrier.e_ts_ev,
+        "spline": barrier.e_ts_spline_ev,
+        "raw_maximum": barrier.e_raw_max_ev,
+    }
+    k_o = {"least_squares": well_o.k_g_ev, "two_point": well_o.k_g_two_point_ev}
+    k_t = {"least_squares": well_t.k_g_ev, "two_point": well_t.k_g_two_point_ev}
+
+    def build(eb: float, ko: float, kt: float) -> SiteModel:
+        return SiteModel(
+            de_t_minus_o_ev=e_t_ev,
+            ea_o_to_t_ev=eb,
+            ea_t_to_o_ev=eb - e_t_ev,
+            omega_o=attempt_frequency(force_constant_si(ko, length)),
+            omega_t=attempt_frequency(force_constant_si(kt, length)),
+        )
+
+    single = {}
+    for name, eb in barriers.items():
+        single[f"barrier={name}"] = d_at(build(eb, well_o.k_g_ev, well_t.k_g_ev), 298.0, geo)
+    for name, ko in k_o.items():
+        single[f"k_O={name}"] = d_at(build(barrier.e_ts_ev, ko, well_t.k_g_ev), 298.0, geo)
+    for name, kt in k_t.items():
+        single[f"k_T={name}"] = d_at(build(barrier.e_ts_ev, well_o.k_g_ev, kt), 298.0, geo)
+    grid = [
+        d_at(build(eb, ko, kt), 298.0, geo)
+        for eb in barriers.values()
+        for ko in k_o.values()
+        for kt in k_t.values()
+    ]
+    return {
+        "note": "D(298 K) for each alternative estimator of one fitted quantity, the others at "
+        "their primary values, and the min/max over all combinations.",
+        "barrier_estimates_meV": {k: v * 1e3 for k, v in barriers.items()},
+        "k_O_estimates_eV_per_g2": k_o,
+        "k_T_estimates_eV_per_g2": k_t,
+        "d_298K_single_factor_m2_s": single,
+        "d_298K_min_m2_s": min(grid),
+        "d_298K_max_m2_s": max(grid),
+    }
 
 
 def main() -> None:
@@ -152,6 +217,21 @@ def main() -> None:
                 for t in table_t
             ],
             "alternatives_d_298K_m2_s": {k: at(v, 298.0) for k, v in alternatives.items()},
+        },
+        "sensitivity": sensitivity(model, barrier, well_o, well_t, float(e[-1]), length, geo),
+        "isotopes_classical": {
+            "note": "Classical harmonic TST with the same profile: only the attempt "
+            "frequencies change, by sqrt(m_H / m). Zero-point energy and tunnelling, "
+            "which dominate the measured isotope effect, are not included.",
+            **{
+                label: {
+                    "mass_amu": mass,
+                    "d_298K_m2_s": d_at(with_mass(model, mass), 298.0, geo),
+                    "d_298K_over_h": d_at(with_mass(model, mass), 298.0, geo)
+                    / d_at(model, 298.0, geo),
+                }
+                for label, mass in (("H", MASS_H_AMU), ("D", MASS_D_AMU), ("T", MASS_T_AMU))
+            },
         },
     }
     with open(args.results / "metrics.json", "w", encoding="utf-8") as fh:
