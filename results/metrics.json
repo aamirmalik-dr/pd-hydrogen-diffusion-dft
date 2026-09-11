@@ -111,5 +111,50 @@
       "populations from site energies only": 4.292691627729283e-10,
       "3D prefactor, no Einstein 1/2 (seminar convention)": 2.7786926803483274e-10
     }
+  },
+  "sensitivity": {
+    "note": "D(298 K) for each alternative estimator of one fitted quantity, the others at their primary values, and the min/max over all combinations.",
+    "barrier_estimates_meV": {
+      "local_cubic": 203.82132452241652,
+      "spline": 203.043901961239,
+      "raw_maximum": 198.77917652932612
+    },
+    "k_O_estimates_eV_per_g2": {
+      "least_squares": 0.9680976883919864,
+      "two_point": 1.09063236095545
+    },
+    "k_T_estimates_eV_per_g2": {
+      "least_squares": 7.3072112689119715,
+      "two_point": 6.306510876286883
+    },
+    "d_298K_single_factor_m2_s": {
+      "barrier=local_cubic": 2.393509523781738e-10,
+      "barrier=spline": 2.4670783148423005e-10,
+      "barrier=raw_maximum": 2.9127821446989635e-10,
+      "k_O=least_squares": 2.393509523781738e-10,
+      "k_O=two_point": 2.536352252995493e-10,
+      "k_T=least_squares": 2.393509523781738e-10,
+      "k_T=two_point": 2.3886783307394365e-10
+    },
+    "d_298K_min_m2_s": 2.3886783307394365e-10,
+    "d_298K_max_m2_s": 3.0866146475655093e-10
+  },
+  "isotopes_classical": {
+    "note": "Classical harmonic TST with the same profile: only the attempt frequencies change, by sqrt(m_H / m). Zero-point energy and tunnelling, which dominate the measured isotope effect, are not included.",
+    "H": {
+      "mass_amu": 1.00794,
+      "d_298K_m2_s": 2.393509523781738e-10,
+      "d_298K_over_h": 1.0
+    },
+    "D": {
+      "mass_amu": 2.0141,
+      "d_298K_m2_s": 1.6932145251487865e-10,
+      "d_298K_over_h": 0.707419171858365
+    },
+    "T": {
+      "mass_amu": 3.01605,
+      "d_298K_m2_s": 1.3836722516600168e-10,
+      "d_298K_over_h": 0.5780934806868112
+    }
   }
 }

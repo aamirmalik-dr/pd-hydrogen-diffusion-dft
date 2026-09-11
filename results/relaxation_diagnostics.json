@@ -1,0 +1,675 @@
+{
+  "units": "forces in milli-Hartree per bohr (1 mH/bohr = 0.0514 eV/A)",
+  "runs": {
+    "octahedral": {
+      "n_steps_last_run": 337,
+      "final_energy_h": -960.8412761,
+      "energy_drift_last_30_steps_mev": -0.3537480203047161,
+      "final_energy_above_lowest_cold_trace_energy_mev": -19.156815918306464,
+      "ionic_temperature_end_k": 3.0,
+      "max_force_free_atoms_mh_bohr": 1.4705441169852742,
+      "max_force_constrained_atoms_mh_bohr": null,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.9546611333169748,
+          "force_mh_bohr": 1.3712403144598688,
+          "constrained": false
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.9587472317019363,
+          "force_mh_bohr": 1.4410065926289164,
+          "constrained": false
+        },
+        {
+          "atom": "PD01",
+          "distance_to_h_ang": 1.9601910028617109,
+          "force_mh_bohr": 1.3506665021388515,
+          "constrained": false
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.960557209851322,
+          "force_mh_bohr": 1.38729953506804,
+          "constrained": false
+        },
+        {
+          "atom": "PD12",
+          "distance_to_h_ang": 1.9625379285252045,
+          "force_mh_bohr": 1.4705441169852742,
+          "constrained": false
+        },
+        {
+          "atom": "PD07",
+          "distance_to_h_ang": 1.9658714043904302,
+          "force_mh_bohr": 1.3704743704279916,
+          "constrained": false
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 0.49776344219956326
+    },
+    "tetrahedral": {
+      "n_steps_last_run": 378,
+      "final_energy_h": -960.8381902,
+      "energy_drift_last_30_steps_mev": 0.21769108941828683,
+      "final_energy_above_lowest_cold_trace_energy_mev": 1.0068212885595766,
+      "ionic_temperature_end_k": 1.0,
+      "max_force_free_atoms_mh_bohr": 12.303385712884076,
+      "max_force_constrained_atoms_mh_bohr": null,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.7529971653143084,
+          "force_mh_bohr": 12.303385712884076,
+          "constrained": false
+        },
+        {
+          "atom": "PD18",
+          "distance_to_h_ang": 1.753182043713658,
+          "force_mh_bohr": 12.25157132779302,
+          "constrained": false
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.7532338233390319,
+          "force_mh_bohr": 12.280313513913235,
+          "constrained": false
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.7536379524576902,
+          "force_mh_bohr": 12.291887568636477,
+          "constrained": false
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 25.568342309733058
+    },
+    "g_0.0": {
+      "n_steps_last_run": 337,
+      "final_energy_h": -960.8412762,
+      "energy_drift_last_30_steps_mev": -0.3537480203047161,
+      "final_energy_above_lowest_cold_trace_energy_mev": -19.156815918306464,
+      "ionic_temperature_end_k": 3.0,
+      "max_force_free_atoms_mh_bohr": 1.4913416778190034,
+      "max_force_constrained_atoms_mh_bohr": 1.4114177269681714,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.951998581505632,
+          "force_mh_bohr": 1.341268056728408,
+          "constrained": true
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.9561075627377957,
+          "force_mh_bohr": 1.4114177269681714,
+          "constrained": true
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.95794102720179,
+          "force_mh_bohr": 1.3576818478568535,
+          "constrained": true
+        },
+        {
+          "atom": "PD01",
+          "distance_to_h_ang": 1.9628248713015635,
+          "force_mh_bohr": 1.3607350954539243,
+          "constrained": false
+        },
+        {
+          "atom": "PD12",
+          "distance_to_h_ang": 1.965180722503659,
+          "force_mh_bohr": 1.4913416778190034,
+          "constrained": false
+        },
+        {
+          "atom": "PD07",
+          "distance_to_h_ang": 1.9685270445945109,
+          "force_mh_bohr": 1.3908989898623119,
+          "constrained": false
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 0.493453820351874
+    },
+    "g_0.1": {
+      "n_steps_last_run": 355,
+      "final_energy_h": -960.8410758,
+      "energy_drift_last_30_steps_mev": 0.13605693088642926,
+      "final_energy_above_lowest_cold_trace_energy_mev": 0.08163415853185756,
+      "ionic_temperature_end_k": 2.0,
+      "max_force_free_atoms_mh_bohr": 8.252339062350746,
+      "max_force_constrained_atoms_mh_bohr": 11.802241312564322,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.865328529508944,
+          "force_mh_bohr": 11.802241312564322,
+          "constrained": true
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.8696664627949018,
+          "force_mh_bohr": 11.668526042307143,
+          "constrained": true
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.874814372064605,
+          "force_mh_bohr": 11.741916368293552,
+          "constrained": true
+        },
+        {
+          "atom": "PD01",
+          "distance_to_h_ang": 2.060918740683387,
+          "force_mh_bohr": 7.994229168594056,
+          "constrained": false
+        },
+        {
+          "atom": "PD12",
+          "distance_to_h_ang": 2.066012703881561,
+          "force_mh_bohr": 8.252339062350746,
+          "constrained": false
+        },
+        {
+          "atom": "PD07",
+          "distance_to_h_ang": 2.0692697133529987,
+          "force_mh_bohr": 7.79560773769435,
+          "constrained": false
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 25.68400289843594
+    },
+    "g_0.2": {
+      "n_steps_last_run": 348,
+      "final_energy_h": -960.8404399,
+      "energy_drift_last_30_steps_mev": -0.4081707926592878,
+      "final_energy_above_lowest_cold_trace_energy_mev": -37.52450163128449,
+      "ionic_temperature_end_k": 5.0,
+      "max_force_free_atoms_mh_bohr": 1.660903368652132,
+      "max_force_constrained_atoms_mh_bohr": 2.963933197627774,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.7976404426358459,
+          "force_mh_bohr": 2.8757433821535607,
+          "constrained": true
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.7993726151634075,
+          "force_mh_bohr": 2.893129793147898,
+          "constrained": true
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.800349382814347,
+          "force_mh_bohr": 2.963933197627774,
+          "constrained": true
+        },
+        {
+          "atom": "PD12",
+          "distance_to_h_ang": 2.172776880606934,
+          "force_mh_bohr": 1.660903368652132,
+          "constrained": false
+        },
+        {
+          "atom": "PD01",
+          "distance_to_h_ang": 2.173469886931954,
+          "force_mh_bohr": 1.5270232480221118,
+          "constrained": false
+        },
+        {
+          "atom": "PD07",
+          "distance_to_h_ang": 2.174370781812522,
+          "force_mh_bohr": 1.4625320509308506,
+          "constrained": false
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 1.383757282823794
+    },
+    "g_0.3": {
+      "n_steps_last_run": 392,
+      "final_energy_h": -960.8390136,
+      "energy_drift_last_30_steps_mev": 0.4081707926592878,
+      "final_energy_above_lowest_cold_trace_energy_mev": 0.7074960406094322,
+      "ionic_temperature_end_k": 1.0,
+      "max_force_free_atoms_mh_bohr": 1.938788281375767,
+      "max_force_constrained_atoms_mh_bohr": 4.428397001173223,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.750892615924803,
+          "force_mh_bohr": 1.86392059916725,
+          "constrained": true
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.7512869291181272,
+          "force_mh_bohr": 1.8543192821086665,
+          "constrained": true
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.7519031063960129,
+          "force_mh_bohr": 1.7860851043553327,
+          "constrained": true
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 0.4281145290347465
+    },
+    "g_0.4": {
+      "n_steps_last_run": 368,
+      "final_energy_h": -960.8370711,
+      "energy_drift_last_30_steps_mev": 1.22451238107144,
+      "final_energy_above_lowest_cold_trace_energy_mev": 0.544227723545717,
+      "ionic_temperature_end_k": 1.0,
+      "max_force_free_atoms_mh_bohr": 3.9921297574101975,
+      "max_force_constrained_atoms_mh_bohr": 16.329130411629396,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.71497261068508,
+          "force_mh_bohr": 16.329130411629396,
+          "constrained": true
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.7165602548701864,
+          "force_mh_bohr": 16.32883951785919,
+          "constrained": true
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.7165668489458836,
+          "force_mh_bohr": 16.30043557700223,
+          "constrained": true
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 33.85725793994802
+    },
+    "g_0.5": {
+      "n_steps_last_run": 364,
+      "final_energy_h": -960.835205,
+      "energy_drift_last_30_steps_mev": 0.3265366341274302,
+      "final_energy_above_lowest_cold_trace_energy_mev": 0.6530732713484368,
+      "ionic_temperature_end_k": 1.0,
+      "max_force_free_atoms_mh_bohr": 4.256160241344303,
+      "max_force_constrained_atoms_mh_bohr": 17.118858022660273,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.694400527059644,
+          "force_mh_bohr": 16.9624172805647,
+          "constrained": true
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.6957005038921233,
+          "force_mh_bohr": 17.008086312104602,
+          "constrained": true
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.6971415245641714,
+          "force_mh_bohr": 17.118858022660273,
+          "constrained": true
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 36.869255615606015
+    },
+    "g_0.6": {
+      "n_steps_last_run": 361,
+      "final_energy_h": -960.8339712,
+      "energy_drift_last_30_steps_mev": 0.38095940648200194,
+      "final_energy_above_lowest_cold_trace_energy_mev": 0.8435529745894379,
+      "ionic_temperature_end_k": 1.0,
+      "max_force_free_atoms_mh_bohr": 4.787452349632318,
+      "max_force_constrained_atoms_mh_bohr": 18.57511776544095,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.6859864671758193,
+          "force_mh_bohr": 18.493031119857015,
+          "constrained": true
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.6869747413343212,
+          "force_mh_bohr": 18.49507231670101,
+          "constrained": true
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.687149002133481,
+          "force_mh_bohr": 18.57511776544095,
+          "constrained": true
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 43.60874989562889
+    },
+    "g_0.7": {
+      "n_steps_last_run": 360,
+      "final_energy_h": -960.8339921,
+      "energy_drift_last_30_steps_mev": 0.38095940957557844,
+      "final_energy_above_lowest_cold_trace_energy_mev": 0.8707643607667238,
+      "ionic_temperature_end_k": 2.0,
+      "max_force_free_atoms_mh_bohr": 5.589579590631123,
+      "max_force_constrained_atoms_mh_bohr": 19.57981103075308,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.6864510231251901,
+          "force_mh_bohr": 19.530122887478203,
+          "constrained": true
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.6871948036015285,
+          "force_mh_bohr": 19.57981103075308,
+          "constrained": true
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.6876072731829521,
+          "force_mh_bohr": 19.524781688920363,
+          "constrained": true
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 48.563200501372094
+    },
+    "g_0.8": {
+      "n_steps_last_run": 368,
+      "final_energy_h": -960.8352027,
+      "energy_drift_last_30_steps_mev": 0.19047970324100097,
+      "final_energy_above_lowest_cold_trace_energy_mev": 1.006821291653153,
+      "ionic_temperature_end_k": 1.0,
+      "max_force_free_atoms_mh_bohr": 5.99351316007565,
+      "max_force_constrained_atoms_mh_bohr": 15.560697285147604,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.696236960392032,
+          "force_mh_bohr": 15.523778534879966,
+          "constrained": true
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.6967184246067466,
+          "force_mh_bohr": 15.560697285147604,
+          "constrained": true
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.6973699611163149,
+          "force_mh_bohr": 15.551546546887225,
+          "constrained": true
+        },
+        {
+          "atom": "PD18",
+          "distance_to_h_ang": 2.0487162644446397,
+          "force_mh_bohr": 5.99351316007565,
+          "constrained": false
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 32.24359059483675
+    },
+    "g_0.9": {
+      "n_steps_last_run": 375,
+      "final_energy_h": -960.8370149,
+      "energy_drift_last_30_steps_mev": 0.16326832015729156,
+      "final_energy_above_lowest_cold_trace_energy_mev": 0.7347074298802945,
+      "ionic_temperature_end_k": 1.0,
+      "max_force_free_atoms_mh_bohr": 7.523104412408483,
+      "max_force_constrained_atoms_mh_bohr": 13.611271064819773,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.715443014675801,
+          "force_mh_bohr": 13.496766279372256,
+          "constrained": true
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.7164618607472757,
+          "force_mh_bohr": 13.52164560991006,
+          "constrained": true
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.7164855137751671,
+          "force_mh_bohr": 13.611271064819773,
+          "constrained": true
+        },
+        {
+          "atom": "PD18",
+          "distance_to_h_ang": 1.899436561562402,
+          "force_mh_bohr": 7.523104412408483,
+          "constrained": false
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 25.716255142175132
+    },
+    "g_1.0": {
+      "n_steps_last_run": 379,
+      "final_energy_h": -960.8381737,
+      "energy_drift_last_30_steps_mev": 0.027211386177285853,
+      "final_energy_above_lowest_cold_trace_energy_mev": 0.8435529745894379,
+      "ionic_temperature_end_k": 1.0,
+      "max_force_free_atoms_mh_bohr": 7.217049258526645,
+      "max_force_constrained_atoms_mh_bohr": 6.288600798269835,
+      "first_shell": [
+        {
+          "atom": "PD03",
+          "distance_to_h_ang": 1.7459257519722882,
+          "force_mh_bohr": 6.288600798269835,
+          "constrained": true
+        },
+        {
+          "atom": "PD17",
+          "distance_to_h_ang": 1.7461394844055271,
+          "force_mh_bohr": 6.287964694557373,
+          "constrained": true
+        },
+        {
+          "atom": "PD04",
+          "distance_to_h_ang": 1.7465262839705562,
+          "force_mh_bohr": 6.279179882755391,
+          "constrained": true
+        },
+        {
+          "atom": "PD18",
+          "distance_to_h_ang": 1.7737010555896955,
+          "force_mh_bohr": 7.217049258526645,
+          "constrained": false
+        }
+      ],
+      "harmonic_upper_bound_unrelaxed_energy_mev": 7.2292698783847875
+    }
+  },
+  "cage_stiffness": {
+    "atom": "PD03 of the tetrahedral run",
+    "history": [
+      {
+        "nfi": 645,
+        "total_energy_h": -960.8323425,
+        "distance_to_h_ang": 1.684419410360733,
+        "radial_force_outward_mh_bohr": 26.36758679389021,
+        "force_norm_mh_bohr": 26.368005233615985
+      },
+      {
+        "nfi": 700,
+        "total_energy_h": -960.8328954,
+        "distance_to_h_ang": 1.6867403714264977,
+        "radial_force_outward_mh_bohr": 22.70717132809732,
+        "force_norm_mh_bohr": 22.70755601116069
+      },
+      {
+        "nfi": 800,
+        "total_energy_h": -960.8356154,
+        "distance_to_h_ang": 1.7025598315477783,
+        "radial_force_outward_mh_bohr": 12.597757683793972,
+        "force_norm_mh_bohr": 12.598134782577937
+      },
+      {
+        "nfi": 900,
+        "total_energy_h": -960.8378934,
+        "distance_to_h_ang": 1.7284539341561869,
+        "radial_force_outward_mh_bohr": 0.727467521784922,
+        "force_norm_mh_bohr": 0.7300684899377592
+      },
+      {
+        "nfi": 1000,
+        "total_energy_h": -960.8381936,
+        "distance_to_h_ang": 1.7515768860087186,
+        "radial_force_outward_mh_bohr": -21.096410151998356,
+        "force_norm_mh_bohr": 21.096649023008368
+      },
+      {
+        "nfi": 1022,
+        "total_energy_h": -960.8381902,
+        "distance_to_h_ang": 1.7529971653143084,
+        "radial_force_outward_mh_bohr": -12.303344823796653,
+        "force_norm_mh_bohr": 12.303385712884076
+      }
+    ],
+    "history_octahedral_PD04": [
+      {
+        "nfi": 738,
+        "total_energy_h": -960.8405683,
+        "distance_to_h_ang": 1.945,
+        "radial_force_outward_mh_bohr": 6.09,
+        "force_norm_mh_bohr": 6.093217540839978
+      },
+      {
+        "nfi": 800,
+        "total_energy_h": -960.8406478,
+        "distance_to_h_ang": 1.9456200372117882,
+        "radial_force_outward_mh_bohr": 5.17997523012914,
+        "force_norm_mh_bohr": 5.182779177236861
+      },
+      {
+        "nfi": 900,
+        "total_energy_h": -960.8409457,
+        "distance_to_h_ang": 1.9489511639597334,
+        "radial_force_outward_mh_bohr": 2.99993222412052,
+        "force_norm_mh_bohr": 3.0016662039607267
+      },
+      {
+        "nfi": 1000,
+        "total_energy_h": -960.8412078,
+        "distance_to_h_ang": 1.9543144388250322,
+        "radial_force_outward_mh_bohr": 0.35002478946595095,
+        "force_norm_mh_bohr": 0.3524202037341219
+      },
+      {
+        "nfi": 1074,
+        "total_energy_h": -960.8412761,
+        "distance_to_h_ang": 1.9587472317019363,
+        "radial_force_outward_mh_bohr": -1.4398543897618987,
+        "force_norm_mh_bohr": 1.4410065926289164
+      }
+    ],
+    "k_radial_ev_per_ang2": 31.199731809206888,
+    "zero_force_distance_ang": 1.725757423081391,
+    "note": "Linear fit of the outward radial force against the Pd-H distance over the printed reports. The surroundings relax at the same time, so this is the soft, relaxed response and the harmonic bound below is an upper estimate."
+  },
+  "generalized_force_check": {
+    "note": "At a constrained minimum the Lagrange multiplier equals dE/dVAL. The shortfall of the multiplier against the slope of the energy profile measures how far the unconstrained atoms are from their minimum along the path.",
+    "rows": [
+      {
+        "g": 0.0,
+        "multiplier_h_per_bohr": 3.4e-05,
+        "profile_slope_h_per_bohr": 0.0002025520091126272,
+        "ratio": 0.16785812270612732
+      },
+      {
+        "g": 0.1,
+        "multiplier_h_per_bohr": 0.00056,
+        "profile_slope_h_per_bohr": 0.0004557544285117221,
+        "ratio": 1.2287318892955017
+      },
+      {
+        "g": 0.2,
+        "multiplier_h_per_bohr": 0.0011,
+        "profile_slope_h_per_bohr": 0.0013874192345004622,
+        "ratio": 0.7928389434474383
+      },
+      {
+        "g": 0.3,
+        "multiplier_h_per_bohr": 0.0019,
+        "profile_slope_h_per_bohr": 0.0024105268157506654,
+        "ratio": 0.7882094435063641
+      },
+      {
+        "g": 0.4,
+        "multiplier_h_per_bohr": 0.0021,
+        "profile_slope_h_per_bohr": 0.0027187423051482874,
+        "ratio": 0.7724159792648904
+      },
+      {
+        "g": 0.5,
+        "multiplier_h_per_bohr": 0.0017,
+        "profile_slope_h_per_bohr": 0.0022576221550370213,
+        "ratio": 0.7530046585550639
+      },
+      {
+        "g": 0.6,
+        "multiplier_h_per_bohr": 0.00053,
+        "profile_slope_h_per_bohr": 0.0009016413325884232,
+        "ratio": 0.5878168855441455
+      },
+      {
+        "g": 0.7,
+        "multiplier_h_per_bohr": -0.00092,
+        "profile_slope_h_per_bohr": -0.0009142720170155352,
+        "ratio": 1.0062650752487894
+      },
+      {
+        "g": 0.8,
+        "multiplier_h_per_bohr": -0.0021,
+        "profile_slope_h_per_bohr": -0.0022703764154475047,
+        "ratio": 0.9249567541803756
+      },
+      {
+        "g": 0.9,
+        "multiplier_h_per_bohr": -0.0022,
+        "profile_slope_h_per_bohr": -0.002340444992806392,
+        "ratio": 0.9399921838632976
+      },
+      {
+        "g": 1.0,
+        "multiplier_h_per_bohr": -0.00064,
+        "profile_slope_h_per_bohr": -0.0004926674713784845,
+        "ratio": 1.299050652175754
+      }
+    ],
+    "thermodynamic_integration_of_multiplier_mev": [
+      0.0,
+      5.9409457217423585,
+      22.5435886478237,
+      52.548365020259844,
+      92.55473351684141,
+      130.5607835885939,
+      152.8643340254381,
+      148.96371309702135,
+      118.75890488210227,
+      75.75205874827712,
+      47.34753711570423
+    ],
+    "direct_profile_mev": [
+      0.0,
+      5.453161804777252,
+      22.75688231915147,
+      61.56848252002451,
+      114.42660030397285,
+      165.20576817840814,
+      198.77917652932612,
+      198.2104585541992,
+      165.26835436692525,
+      115.95588021146733,
+      84.42332583003292
+    ]
+  }
+}
