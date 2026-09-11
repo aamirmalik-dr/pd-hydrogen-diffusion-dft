@@ -28,7 +28,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "ruff==0.16.7", "black==-m", "pillow>=10.0"]
+dev = ["pytest>=8.0", "ruff==0.16.7", "black==26.5.1", "pillow>=10.0"]
 notebook = ["jupyter", "nbconvert", "ipykernel"]
 
 [project.urls]
