@@ -183,12 +183,8 @@ class ProtocolSummary:
         return np.array([a.force if a.force is not None else np.zeros(3) for a in self.atoms])
 
 
-def _parse_atomlist(text: str) -> tuple[np.ndarray | None, list[Atom]]:
-    """Parse the last ATOMLIST REPORT block of a protocol."""
-    idx = text.rfind("ATOMLIST REPORT")
-    if idx < 0:
-        return None, []
-    block = text[idx:]
+def _parse_atomlist_block(block: str) -> tuple[np.ndarray | None, list[Atom]]:
+    """Parse one ATOMLIST REPORT block (text starting at the title line)."""
     lattice = np.zeros((3, 3))
     for m in _LATTICE.finditer(block[:2000]):
         lattice[int(m.group(1)) - 1] = [float(m.group(i)) for i in (2, 3, 4)]
@@ -221,6 +217,76 @@ def _parse_atomlist(text: str) -> tuple[np.ndarray | None, list[Atom]]:
     if not np.any(lattice):
         lattice = None
     return lattice, atoms
+
+
+def _parse_atomlist(text: str) -> tuple[np.ndarray | None, list[Atom]]:
+    """Parse the last ATOMLIST REPORT block of a protocol."""
+    idx = text.rfind("ATOMLIST REPORT")
+    if idx < 0:
+        return None, []
+    return _parse_atomlist_block(text[idx:])
+
+
+@dataclass
+class AtomListReport:
+    """One of the periodic ``ATOMLIST REPORT`` blocks of a run, with forces.
+
+    CP-PAW prints an energy report and an atom list every ``IPRINT`` steps and at
+    the end of the run. The atom list carries the positions ``R(0)`` and the forces
+    used to propagate the atoms in that step (the ``FORCE`` array of the atoms
+    object, printed before it is reset by the switch to the next step).
+
+    Attributes:
+        nfi: Time-step counter of the last ``!>`` trace line before the report.
+        total_energy_h: The ``TOTAL ENERGY`` of the accompanying energy report.
+        atoms: Atoms with positions in angstrom and forces in milli-Hartree per bohr.
+    """
+
+    nfi: int
+    total_energy_h: float
+    atoms: list[Atom]
+
+    def atom(self, name: str) -> Atom:
+        """Return the atom with a given label."""
+        for a in self.atoms:
+            if a.name == name:
+                return a
+        raise KeyError(name)
+
+
+def parse_reports(path: str | Path, last_run_only: bool = True) -> list[AtomListReport]:
+    """Return every atom-list report that carries forces, in order.
+
+    Args:
+        path: Protocol file, plain or gzipped.
+        last_run_only: Restrict to the last run recorded in the file (the atomic
+            relaxation in the two-stage protocols of this project).
+
+    Returns:
+        List of :class:`AtomListReport`. Reports without forces (atoms frozen or
+        velocities reset, as at the start of a run) are skipped.
+    """
+    text = read_text(path)
+    if last_run_only:
+        text = text.split("PROGRAM STARTED")[-1]
+    reports = []
+    for m in re.finditer(r"ATOMLIST REPORT", text):
+        before = text[: m.start()]
+        energies = _TOTAL_ENERGY.findall(before)
+        steps = re.findall(r"^!>\s+(\d+)", before, re.M)
+        if not energies:
+            continue
+        _, atoms = _parse_atomlist_block(text[m.start() : m.start() + 20000])
+        if not atoms or atoms[0].force is None:
+            continue
+        reports.append(
+            AtomListReport(
+                nfi=int(steps[-1]) if steps else 0,
+                total_energy_h=float(energies[-1]),
+                atoms=atoms,
+            )
+        )
+    return reports
 
 
 def parse_prot(path: str | Path) -> ProtocolSummary:

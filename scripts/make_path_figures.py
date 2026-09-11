@@ -35,10 +35,16 @@ def main() -> None:
         prot = parse_prot(next((d / STAGE2).glob("*.prot*")))
         symbols = [at.element for at in prot.atoms]
         pos = prot.positions()
+        cell = float(prot.lattice[0, 0])
         g = float(prof[d.name]["g_nominal"])
         e_rel = float(prof[d.name]["energy_rel_mev"])
         frames.append(
-            (symbols, pos, f'g={g:.1f} E_rel_meV={e_rel:.2f} Lattice="7.78 0 0 0 7.78 0 0 0 7.78"')
+            (
+                symbols,
+                pos,
+                f'g={g:.1f} E_rel_meV={e_rel:.2f} Lattice="{cell} 0 0 0 {cell} 0 0 0 {cell}" '
+                'pbc="T T T" Properties=species:S:1:pos:R:3',
+            )
         )
         h = next(at.position for at in prot.atoms if at.element == "H")
         pd = np.array([at.position for at in prot.atoms if at.element == "Pd"])

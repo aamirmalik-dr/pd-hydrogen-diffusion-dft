@@ -15,7 +15,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 
-from pdhdiff.constants import D_EXP_298K_M2_S, KB_EV  # noqa: E402
+from pdhdiff.constants import D_EXP_298K_M2_S, HARTREE_EV, KB_EV  # noqa: E402
 from pdhdiff.profile import BarrierFit, WellFit, spline_curve  # noqa: E402
 from pdhdiff.tst import DiffusionResult  # noqa: E402
 
@@ -354,7 +354,7 @@ def plot_convergence(traces: dict[str, np.ndarray], ax=None):
         fig = ax.figure
     cols = [BLUE, ORANGE, AQUA, VIOLET]
     for (label, tr), col in zip(traces.items(), cols):
-        de = np.abs(tr[:, 4] - tr[-1, 4]) * 27.211386 * 1e3
+        de = np.abs(tr[:, 4] - tr[-1, 4]) * HARTREE_EV * 1e3
         ax.plot(tr[:, 0] - tr[0, 0] + 1, np.maximum(de, 1e-2), color=col, lw=1.6, label=label)
     ax.set_yscale("log")
     ax.set_xlabel("time step of the relaxation run")
@@ -493,5 +493,69 @@ def hero_figure(profile_kwargs: dict, arrhenius_kwargs: dict):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.6, 4.4))
     plot_energy_profile(ax=ax1, **profile_kwargs)
     plot_arrhenius(ax=ax2, **arrhenius_kwargs)
+    fig.tight_layout(w_pad=2.5)
+    return fig
+
+
+# --------------------------------------------------------------------------------------
+# relaxation diagnostics
+# --------------------------------------------------------------------------------------
+
+
+def plot_relaxation_diagnostics(hist_t, hist_o, k_radial_ev_ang2, r_zero, lam_rows):
+    """Force on a cage atom against its distance to H, and multiplier against profile slope.
+
+    Args:
+        hist_t: Rows of :func:`scripts.relaxation_diagnostics.radial_force_history` for a
+            first-shell atom of the tetrahedral run.
+        hist_o: Same for an octahedral cage atom.
+        k_radial_ev_ang2: Fitted radial stiffness in eV per square angstrom.
+        r_zero: Pd-H distance at which the fitted radial force vanishes.
+        lam_rows: Rows with ``g``, ``multiplier_h_per_bohr`` and ``profile_slope_h_per_bohr``.
+    """
+    _style()
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.0, 4.2))
+    mh_to_ev_a = 1e-3 * HARTREE_EV / 0.529177210903
+    for hist, col, label in (
+        (hist_t, ORANGE, "tetrahedral cage atom PD03"),
+        (hist_o, BLUE, "octahedral cage atom PD04"),
+    ):
+        r = np.array([h["distance_to_h_ang"] for h in hist])
+        f = np.array([h["radial_force_outward_mh_bohr"] for h in hist]) * mh_to_ev_a
+        ax1.plot(r, f, "o-", color=col, lw=1.6, ms=6, label=label)
+        for h, ri, fi in zip(hist, r, f):
+            ax1.annotate(
+                str(h["nfi"]),
+                (ri, fi),
+                xytext=(4, 4),
+                textcoords="offset points",
+                fontsize=7,
+                color=INK2,
+            )
+    rr = np.linspace(1.67, 1.77, 20)
+    ax1.plot(
+        rr,
+        -k_radial_ev_ang2 * (rr - r_zero),
+        color=ORANGE,
+        lw=0.9,
+        ls=":",
+        label=f"linear fit, k = {k_radial_ev_ang2:.0f} eV/Å$^2$",
+    )
+    ax1.axhline(0, color=INK, lw=0.8)
+    ax1.set_xlabel("Pd$-$H distance (Å)")
+    ax1.set_ylabel("radial force on the Pd atom, outward (eV/Å)")
+    ax1.set_title("Cage atom during the relaxation (labels: time step)", loc="left", fontsize=11)
+    ax1.legend(fontsize=8, loc="upper right")
+
+    g = np.array([r["g"] for r in lam_rows])
+    lam = np.array([r["multiplier_h_per_bohr"] for r in lam_rows]) * HARTREE_EV
+    slope = np.array([r["profile_slope_h_per_bohr"] for r in lam_rows]) * HARTREE_EV
+    ax2.plot(g, slope, "-", color=BLUE, lw=2, label="dE/dVAL from the fitted energy profile")
+    ax2.plot(g, lam, "s", color=ORANGE, ms=6, label="Lagrange multiplier printed by CP-PAW")
+    ax2.axhline(0, color=INK, lw=0.8)
+    ax2.set_xlabel("reaction coordinate g")
+    ax2.set_ylabel("generalized force (eV / bohr)")
+    ax2.set_title("Constraint force against profile slope", loc="left", fontsize=11)
+    ax2.legend(fontsize=8, loc="lower left")
     fig.tight_layout(w_pad=2.5)
     return fig

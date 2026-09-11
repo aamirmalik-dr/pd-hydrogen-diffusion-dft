@@ -12,6 +12,7 @@ STEPS = [
     "analyze_diffusion.py",
     "plot_electronic_structure.py",
     "make_path_figures.py",
+    "relaxation_diagnostics.py",
 ]
 
 
