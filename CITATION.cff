@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this code or these calculations, please cite the repository."
+title: "pd-hydrogen-diffusion-dft: energy profile and diffusion constant of hydrogen in fcc palladium from CP-PAW calculations"
+type: software
+authors:
+  - family-names: Malik
+    given-names: Aamir
+version: 0.1.0
+date-released: "2026-09-11"
+license: MIT
+repository-code: "https://github.com/aamirmalik-dr/pd-hydrogen-diffusion-dft"
+keywords:
+  - density functional theory
+  - CP-PAW
+  - projector augmented wave
+  - hydrogen diffusion
+  - palladium
+  - transition-state theory

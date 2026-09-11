@@ -1,0 +1,90 @@
+********************************************************************************
+**************                PDOS ANALYSIS TOOL                ****************
+**************        FOR THE PROJECTOR-AUGMENTED WAVE METHOD   ****************
+********************************************************************************
+         P.E. BLOECHL, CLAUSTHAL UNIVERSITY OF TECHNOLOGY
+         DISTRIBUTED UNDER THE GNU PUBLIC LICENSE V3
+
+FLAG OF PDOS FILE=.....................................: 181213
+
+PROJECTED CHARGE ANALYSIS
+=========================
+          |                CHARGE[-E] PROJECTED ON
+  ATOM    |      ALL       S         P         D         F
+-----------------------------------------------------------------
+PD1       |    10.858     0.807     1.073     8.978
+================================================================================
+===================  NEWORBITAL REPORT  ========================================
+================================================================================
+NUMBER OF ORBITALS......................:  0
+================================================================================
+===================  NEWSET REPORT  ============================================
+================================================================================
+NUMBER OF SETS..........................:  4
+================================================================================
+ID..................:   total
+LEGEND..............:   WEIGHT    1
+SPINID..............:   +Z                              
+TYPE................:   SPECIAL:TOTAL                           
+================================================================================
+ID..................:   s
+LEGEND..............:   WEIGHT    2
+SPINID..............:   +Z                              
+TYPE................:   ANGULAR-MOMENTUM WEIGHTS
+ [IAT=    1 L=0] 
+================================================================================
+ID..................:   p
+LEGEND..............:   WEIGHT    3
+SPINID..............:   +Z                              
+TYPE................:   ANGULAR-MOMENTUM WEIGHTS
+ [IAT=    1 L=1] 
+================================================================================
+ID..................:   d
+LEGEND..............:   WEIGHT    4
+SPINID..............:   +Z                              
+TYPE................:   ANGULAR-MOMENTUM WEIGHTS
+ [IAT=    1 L=2] 
+
+INTEGRATION METHOD.....................................: TETRA
+PREFIX FOR DOS AND NOS FILES...........................: Dos/
+ENERGY GRID STARTS AT..................................:   13.81899 EV
+ENERGY GRID ENDS AT....................................:   41.76066 EV
+SPACING OF THE ENERGY GRID.............................:    0.01000 EV
+
+
+TETRAHEDRON METHOD
+==================
+WARNING!!
+PROJECTED DENSITY OF STATES WILL BE IN ERROR
+UNLESS THEY TRANSFORM LIKE THE IDENTITY
+UNDER THE POINTGROUP OF THE CRYSTAL EMPLOYED
+IN THE CALCULATION
+SPACEGROUP.............................................:          2  
+BRAVAIS LATTICE........................................: G1
+TIME REVERSAL SYMMETRY EXPLOITED?......................: TRUE
+TSHIFT.................................................: FALSE
+NUMBER OF K-GRID POINTS ALONG G1.......................:          5  
+NUMBER OF K-GRID POINTS ALONG G2.......................:          5  
+NUMBER OF K-GRID POINTS ALONG G3.......................:          5  
+SHIFT ALONG G1.........................................:          0  
+SHIFT ALONG G2.........................................:          0  
+SHIFT ALONG G3.........................................:          0  
+FERMI LEVEL............................................:   21.43526 EV
+
+UNUSED ELEMENTS FROM INPUT FILE
+================================
+NAME OF CURRENT LIST: DCNTL
+UNUSED ELEMENTS COULD INDICATE MISSPELLED OR INCORRECTLY PLACED DATA OR LISTS
+---------START LIST OF UNUSED ELEMENTS------------------------------------------
+---------END LIST OF UNUSED ELEMENTS--------------------------------------------
+
+FILE REPORT
+===========
+IDENTIFIER                FILENAME
+PROT                      pd.dprot
+DCNTL                     pd.dcntl
+PDOS                      pd.pdos
+PDOSOUT                   Dos/d.dos
+================================================================================
+===================  PAW_DOS TOOL FINISHED  ====================================
+================================================================================

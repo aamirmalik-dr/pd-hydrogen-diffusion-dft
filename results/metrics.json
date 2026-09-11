@@ -1,0 +1,115 @@
+{
+  "inputs": {
+    "lattice_constant_ang": 3.89,
+    "path_length_ang": 1.684419410360733,
+    "hydrogen_mass_amu": 1.00794,
+    "n_path_points": 11
+  },
+  "profile": {
+    "e_t_minus_e_o_path_mev": 84.42332583003292,
+    "e_t_minus_e_o_unconstrained_mev": 83.97161681577768,
+    "barrier": {
+      "g_ts": 0.65035,
+      "e_ts_ev": 0.20382132452241652,
+      "g_ts_spline": 0.6478,
+      "e_ts_spline_ev": 0.20304390196123898,
+      "e_raw_max_ev": 0.1987791765293261,
+      "g_raw_max": 0.6
+    },
+    "e_act_o_to_t_mev": 203.82132452241652,
+    "e_act_t_to_o_mev": 119.3979986923836,
+    "well_octahedral": {
+      "site": "O",
+      "k_g_ev": 0.9680976883919864,
+      "anharmonic_coeff": 2.2195109124626,
+      "n_points": 4,
+      "rms_residual_mev": 0.21081308228810905,
+      "k_g_two_point_ev": 1.09063236095545
+    },
+    "well_tetrahedral": {
+      "site": "T",
+      "k_g_ev": 7.3072112689119715,
+      "anharmonic_coeff": 7.976582096812914,
+      "n_points": 4,
+      "rms_residual_mev": 1.6701895734658019,
+      "k_g_two_point_ev": 6.306510876286883
+    }
+  },
+  "vibrations": {
+    "k_octahedral_N_per_m": 5.466748596766005,
+    "k_tetrahedral_N_per_m": 41.2630744082747,
+    "omega_octahedral_rad_s": 57150845801331.08,
+    "omega_tetrahedral_rad_s": 157014189795876.53,
+    "nu_octahedral_Hz": 9095839611164.533,
+    "nu_tetrahedral_Hz": 24989584441582.785,
+    "hbar_omega_octahedral_meV": 37.61737005338428,
+    "hbar_omega_tetrahedral_meV": 103.3486171266119
+  },
+  "geometry": {
+    "t_neighbours_of_o": 8,
+    "o_neighbours_of_t": 4,
+    "geometric_factor_o_ang2_isotropic": 7.56605,
+    "geometric_factor_t_ang2_isotropic": 3.7830250000000003,
+    "geometric_factor_o_over_a2": 0.49999999999999994,
+    "geometric_factor_t_over_a2": 0.25
+  },
+  "diffusion": {
+    "convention": "D = 1/2 sum_i P_i sum_j Gamma_ji |r_j - r_i|^2 / 3 (Einstein relation); sublattice populations from the 1D harmonic wells, consistent with the 1D rates",
+    "arrhenius_fit_ea_eV": 0.19788112365393676,
+    "arrhenius_fit_d0_m2_s": 5.271427248855355e-07,
+    "d_298K_m2_s": 2.397186220943147e-10,
+    "d_298K_experiment_m2_s": 3.248e-11,
+    "ratio_calc_over_experiment_298K": 7.380499448716585,
+    "ea_experiment_eV_quoted": 0.23,
+    "detailed_balance_ratio_300K": 0.9999999999999993,
+    "table": [
+      {
+        "T_K": 200,
+        "gamma_t_from_o_per_s": 66492317.27355218,
+        "gamma_o_from_t_per_s": 24494122653.369095,
+        "p_tet": 0.005399929150930198,
+        "d_m2_s": 5.0036757808622584e-12
+      },
+      {
+        "T_K": 300,
+        "gamma_t_from_o_per_s": 3426062202.1536636,
+        "gamma_o_from_t_per_s": 246581753644.312,
+        "p_tet": 0.02703712880482697,
+        "d_m2_s": 2.522090801674965e-10
+      },
+      {
+        "T_K": 400,
+        "gamma_t_from_o_per_s": 24592752048.00991,
+        "gamma_o_from_t_per_s": 782366887316.2085,
+        "p_tet": 0.059149014065713754,
+        "d_m2_s": 1.7506413508054693e-09
+      },
+      {
+        "T_K": 600,
+        "gamma_t_from_o_per_s": 176530202199.68845,
+        "gamma_o_from_t_per_s": 2482332684079.251,
+        "p_tet": 0.12451903259340198,
+        "d_m2_s": 1.1693241918536876e-08
+      },
+      {
+        "T_K": 800,
+        "gamma_t_from_o_per_s": 472960599020.5064,
+        "gamma_o_from_t_per_s": 4421653920750.32,
+        "p_tet": 0.1762287768883642,
+        "d_m2_s": 2.947818811962222e-08
+      },
+      {
+        "T_K": 1000,
+        "gamma_t_from_o_per_s": 854335649146.143,
+        "gamma_o_from_t_per_s": 6252009150653.733,
+        "p_tet": 0.21463885019006274,
+        "d_m2_s": 5.076532249959786e-08
+      }
+    ],
+    "alternatives_d_298K_m2_s": {
+      "populations with 3D harmonic prefactor": 1.3893463401741637e-10,
+      "populations from site energies only": 4.292691627729283e-10,
+      "3D prefactor, no Einstein 1/2 (seminar convention)": 2.7786926803483274e-10
+    }
+  }
+}

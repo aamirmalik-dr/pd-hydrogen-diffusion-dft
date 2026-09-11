@@ -1,0 +1,11 @@
+!BCNTL
+    !BANDSTRUCTURE MODE='DIAGONALISATION' MODE_X='LINEARINTERPOLATION'
+        !LINE FILE='pd_bands.dat' NK=40 NB=8           KVEC1=0.   0.   0.   KVEC2=1.   0.   0.   KVECSCALE=7.351 !END
+        !LINE FILE='pd_bands.dat' NK=20 NB=8 TAPPEND=T KVEC1=1.   0.   0.   KVEC2=1.   0.5  0.   KVECSCALE=7.351 !END
+        !LINE FILE='pd_bands.dat' NK=30 NB=8 TAPPEND=T KVEC1=1.   0.5  0.   KVEC2=0.5  0.5  0.5  KVECSCALE=7.351 !END
+        !LINE FILE='pd_bands.dat' NK=35 NB=8 TAPPEND=T KVEC1=0.5  0.5  0.5  KVEC2=0.   0.   0.   KVECSCALE=7.351 !END
+        !LINE FILE='pd_bands.dat' NK=40 NB=8 TAPPEND=T KVEC1=0.   0.   0.   KVEC2=0.75 0.75 0.   KVECSCALE=7.351 !END
+        !LINE FILE='pd_bands.dat' NK=15 NB=8 TAPPEND=T KVEC1=0.75 0.75 0.   KVEC2=1.   1.   0.   KVECSCALE=7.351 !END
+    !END
+!END
+!EOB

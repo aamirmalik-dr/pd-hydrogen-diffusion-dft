@@ -1,0 +1,31 @@
+# Environments and caches
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.ipynb_checkpoints/
+build/
+dist/
+
+# CP-PAW binary and bulky outputs are never committed (restart files, trajectories,
+# projector data, band data, wave-function cubes). The committed calculations/ tree
+# holds inputs, gzipped protocols and final structures only.
+*.rstrt
+*.tra
+*.myxml
+*.banddata
+*.pdos
+*.cub
+*.wv
+*.psphi
+psphi.dat
+out
+*.sprot
+
+# Scratch
+*.log
+*.err
+scratch/

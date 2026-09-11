@@ -1,0 +1,72 @@
+{
+  "octahedral": {
+    "energy_h": -960.8412761,
+    "energy_stage1_h": -960.8405714,
+    "n_kpoints": 8,
+    "n_bands": 166,
+    "cutoff_ry": 30.0,
+    "n_iterations": 337,
+    "wallclock": "0H 0M 0.5S",
+    "finished": true,
+    "h_position_ang": [
+      0.00565,
+      0.00201,
+      1.9449
+    ],
+    "nearest_pd_distances_ang": [
+      1.9546611333169748,
+      1.9587472317019363,
+      1.9601910028617109,
+      1.960557209851322,
+      1.9625379285252045,
+      1.9658714043904302
+    ],
+    "max_force_mh_per_bohr": 1.47
+  },
+  "tetrahedral": {
+    "energy_h": -960.8381902,
+    "energy_stage1_h": -960.8323489,
+    "n_kpoints": 8,
+    "n_bands": 166,
+    "cutoff_ry": 30.0,
+    "n_iterations": 378,
+    "wallclock": "0H 0M 0.8S",
+    "finished": true,
+    "h_position_ang": [
+      0.97293,
+      0.97233,
+      2.91745
+    ],
+    "nearest_pd_distances_ang": [
+      1.7529971653143084,
+      1.753182043713658,
+      1.7532338233390319,
+      1.7536379524576902,
+      3.229711487517113,
+      3.2299223875195517
+    ],
+    "max_force_mh_per_bohr": 7.13
+  },
+  "bulk_primitive": {
+    "energy_h": -30.0020008,
+    "n_kpoints": 63,
+    "n_bands": 10,
+    "fermi_energy_ev": 21.43526,
+    "n_iterations": 251
+  },
+  "bulk_supercell": {
+    "energy_h": -960.2619568,
+    "energy_per_atom_h": -30.00818615,
+    "n_kpoints": 8,
+    "n_bands": 166,
+    "fermi_energy_ev": 21.65442,
+    "n_iterations": 457
+  },
+  "derived": {
+    "e_t_minus_e_o_mev": 83.97161681577768,
+    "path_start_minus_octahedral_mev": -0.002721140783232102,
+    "path_end_minus_tetrahedral_mev": 0.4489878734720048,
+    "supercell_minus_primitive_per_atom_mev": -168.31194791659712,
+    "h_solution_energy_relative_to_free_atom_not_computed": true
+  }
+}

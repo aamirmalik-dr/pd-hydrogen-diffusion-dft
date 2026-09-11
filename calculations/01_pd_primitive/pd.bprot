@@ -1,0 +1,79 @@
+********************************************************************************
+**************             BANDS ANALYSIS TOOL                ******************
+**************      FOR THE PROJECTOR-AUGMENTED WAVE METHOD   ******************
+********************************************************************************
+         P.E. BLOECHL, CLAUSTHAL UNIVERSITY OF TECHNOLOGY
+         DISTRIBUTED UNDER THE GNU PUBLIC LICENSE V3
+
+========================================================================
+ LINE-BLOCK:           1  OF            6
+========================================================================
+ WRITING OUTPUT FOR LINE-BLOCK           1  TO NEW FILE pd_bands.dat
+ OUTPUT FILE: pd_bands.dat
+ FIRST K-POINT IN RELATIVE COORDINATES:   0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ FIRST K-POINT IN ABSOLUTE COORDINATES:   0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ LAST K-POINT IN RELATIVE COORDINATES:   0.0000000000000000       0.50000232016794299       0.50000232016794299     
+ LAST K-POINT IN ABSOLUTE COORDINATES:  0.85473885283357176        0.0000000000000000        0.0000000000000000     
+========================================================================
+ LINE-BLOCK:           2  OF            6
+========================================================================
+ ATTACHING OUTPUT FOR LINE-BLOCK           2  TO EXISTING FILE pd_bands.dat
+ OUTPUT FILE: pd_bands.dat
+ FIRST K-POINT IN RELATIVE COORDINATES:   0.0000000000000000       0.50000232016794299       0.50000232016794299     
+ FIRST K-POINT IN ABSOLUTE COORDINATES:  0.85473885283357176        0.0000000000000000        0.0000000000000000     
+ LAST K-POINT IN RELATIVE COORDINATES:  0.25000116008397150       0.50000232016794299       0.75000348025191443     
+ LAST K-POINT IN ABSOLUTE COORDINATES:  0.85473885283357176       0.42736942641678588        0.0000000000000000     
+========================================================================
+ LINE-BLOCK:           3  OF            6
+========================================================================
+ ATTACHING OUTPUT FOR LINE-BLOCK           3  TO EXISTING FILE pd_bands.dat
+ OUTPUT FILE: pd_bands.dat
+ FIRST K-POINT IN RELATIVE COORDINATES:  0.25000116008397150       0.50000232016794299       0.75000348025191443     
+ FIRST K-POINT IN ABSOLUTE COORDINATES:  0.85473885283357176       0.42736942641678588        0.0000000000000000     
+ LAST K-POINT IN RELATIVE COORDINATES:  0.50000232016794299       0.50000232016794299       0.50000232016794299     
+ LAST K-POINT IN ABSOLUTE COORDINATES:  0.42736942641678588       0.42736942641678588       0.42736942641678588     
+========================================================================
+ LINE-BLOCK:           4  OF            6
+========================================================================
+ ATTACHING OUTPUT FOR LINE-BLOCK           4  TO EXISTING FILE pd_bands.dat
+ OUTPUT FILE: pd_bands.dat
+ FIRST K-POINT IN RELATIVE COORDINATES:  0.50000232016794299       0.50000232016794299       0.50000232016794299     
+ FIRST K-POINT IN ABSOLUTE COORDINATES:  0.42736942641678588       0.42736942641678588       0.42736942641678588     
+ LAST K-POINT IN RELATIVE COORDINATES:   0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ LAST K-POINT IN ABSOLUTE COORDINATES:   0.0000000000000000        0.0000000000000000        0.0000000000000000     
+========================================================================
+ LINE-BLOCK:           5  OF            6
+========================================================================
+ ATTACHING OUTPUT FOR LINE-BLOCK           5  TO EXISTING FILE pd_bands.dat
+ OUTPUT FILE: pd_bands.dat
+ FIRST K-POINT IN RELATIVE COORDINATES:   0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ FIRST K-POINT IN ABSOLUTE COORDINATES:   0.0000000000000000        0.0000000000000000        0.0000000000000000     
+ LAST K-POINT IN RELATIVE COORDINATES:  0.37500174012595716       0.37500174012595716       0.75000348025191432     
+ LAST K-POINT IN ABSOLUTE COORDINATES:  0.64105413962517876       0.64105413962517876        0.0000000000000000     
+========================================================================
+ LINE-BLOCK:           6  OF            6
+========================================================================
+ ATTACHING OUTPUT FOR LINE-BLOCK           6  TO EXISTING FILE pd_bands.dat
+ OUTPUT FILE: pd_bands.dat
+ FIRST K-POINT IN RELATIVE COORDINATES:  0.37500174012595716       0.37500174012595716       0.75000348025191432     
+ FIRST K-POINT IN ABSOLUTE COORDINATES:  0.64105413962517876       0.64105413962517876        0.0000000000000000     
+ LAST K-POINT IN RELATIVE COORDINATES:  0.50000232016794299       0.50000232016794299        1.0000046403358860     
+ LAST K-POINT IN ABSOLUTE COORDINATES:  0.85473885283357176       0.85473885283357176        0.0000000000000000     
+
+UNUSED ELEMENTS FROM INPUT FILE
+================================
+NAME OF CURRENT LIST: BCNTL
+UNUSED ELEMENTS COULD INDICATE MISSPELLED OR INCORRECTLY PLACED DATA OR LISTS
+---------START LIST OF UNUSED ELEMENTS------------------------------------------
+---------END LIST OF UNUSED ELEMENTS--------------------------------------------
+
+FILE REPORT
+===========
+IDENTIFIER                FILENAME
+PROT                      pd.bprot
+BCNTL                     pd.bcntl
+BANDDATAIN                pd.banddata
+BANDS                     pd_bands.dat
+========================================================================
+===================  PAW_BANDS TOOL FINISHED  ==========================
+========================================================================

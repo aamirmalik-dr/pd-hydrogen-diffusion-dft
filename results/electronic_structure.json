@@ -1,0 +1,27 @@
+{
+  "note": "DOS files are per spin; electron counts below are multiplied by 2 for the non-spin-polarised run. Projections are sphere weights and do not add up to the total.",
+  "fermi_energy_ev": 21.43526,
+  "dos_at_fermi_states_per_ev_both_spins": 4.431263724804697,
+  "occupied_electrons_total_both_spins": 9.958383987976667,
+  "occupied_electrons_by_projection_both_spins": {
+    "s": 0.8206448926166172,
+    "p": 1.1046113993502324,
+    "d": 8.929564115606562
+  },
+  "d_band_lower_edge_rel_ef_ev": -5.136123989999998,
+  "d_band_upper_edge_rel_ef_ev": -0.005816759999998311,
+  "energy_grid_spacing_ev": 0.010000599999997917,
+  "n_kpoints": 63,
+  "bands_n_segments": 6,
+  "bands_n_bands": 8,
+  "band_energies_at_gamma_rel_ef_ev": [
+    -7.099259999999999,
+    -2.8542999999999985,
+    -2.8531000000000013,
+    -2.835180000000001,
+    -1.2408000000000001,
+    -1.2376199999999997,
+    19.234790000000004,
+    22.12482
+  ]
+}
