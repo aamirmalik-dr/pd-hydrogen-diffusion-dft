@@ -9,6 +9,7 @@
 - Test suite extended: xyz files against protocol positions, input generator round trip, figure rendering, sensitivity block.
 - Continuous integration on Linux and Windows with a reproduction check of the committed result files.
 - Names and places written with their diacritics; package metadata and citation file completed.
+- Linter versions pinned to those the code was formatted with (ruff 0.16.7, black 26.5.1); numpy 2 required.
 
 ## 0.1.0 (2026-09-11)
 
