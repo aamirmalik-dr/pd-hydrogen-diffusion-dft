@@ -55,6 +55,7 @@ Checks: the constraint value printed by CP-PAW equals a (g - 2/3) in bohr for ev
 | Transition state | g = 0.650, E = 203.8 meV | cubic polynomial through the four points around the maximum |
 | Transition state, cross-check | g = 0.648, E = 203.0 meV | not-a-knot cubic spline through all eleven points |
 | Highest calculated point | g = 0.6, E = 198.8 meV | raw |
+| Curvature at the transition state | -4.27 eV/g^2 | second derivative of the local cubic at its maximum; spline -3.64 eV/g^2 |
 | E_act (O to T) | 203.8 meV | |
 | E_act (T to O) | 119.4 meV | |
 | k_O | 0.968 eV/g^2 | E = k/2 g^2 + c g^4 on g <= 0.3, rms residual 0.2 meV; two-point estimate 1.09 |
@@ -102,6 +103,32 @@ Alternative conventions at 298 K, for comparison with the seminar slides and the
 | Populations with the three-dimensional harmonic prefactor (omega_O/omega_T)^3 | 1.39 x 10^-10 |
 | Populations from site energies only | 4.29 x 10^-10 |
 | Three-dimensional prefactor and no factor 1/2 (as on the seminar slides) | 2.78 x 10^-10 |
+
+## Where the factor 7 comes from
+
+`metrics.json`, block `comparison_with_experiment`. The measured D(298 K) and the quoted experimental activation energy of 0.23 eV imply a prefactor D_0 = D exp(E_a / k_B T) = 2.52 x 10^-7 m^2/s. This is an implied value, not an independent measurement. Against it:
+
+| Part | Calculated | Experiment | Factor in D(298 K) |
+|---|---|---|---|
+| Activation energy | 0.198 eV | 0.23 eV (quoted) | 3.5 |
+| Prefactor D_0 | 5.3 x 10^-7 m^2/s | 2.5 x 10^-7 m^2/s (implied) | 2.1 |
+| Product | | | 7.4 |
+
+The prefactor of the one-dimensional model is within a factor of about two of experiment; the larger part of the discrepancy is a barrier 32 meV too low.
+
+## Quantum estimates from the path mode
+
+`metrics.json`, block `quantum_estimates`. The curvature at the transition state converts to the imaginary frequency of the unstable mode with the path length and the hydrogen mass, exactly as the well curvatures do.
+
+| Quantity | Local cubic | Spline |
+|---|---|---|
+| hbar omega of the unstable mode | 79.0 meV | 73.0 meV |
+| Wigner factor 1 + (hbar omega / k_B T)^2 / 24 at 298 K | 1.39 | 1.34 |
+| Crossover temperature hbar omega / (2 pi k_B) | 146 K | |
+| Quantum correction of the octahedral well mode, sinh(x) / x with x = hbar omega_O / 2 k_B T, at 298 K | 1.09 | |
+| Combined factor on the O to T rate and on D at 298 K | 1.52 | |
+
+Room temperature is a factor two above the crossover temperature, so the Wigner expansion is adequate at 298 K; it is not at the 200 K end of the temperature grid, which is one reason these factors are not folded into D(T). The other reason is that they are incomplete. Both exceed one, so every quantum correction the one-dimensional profile can supply moves D away from experiment, to 3.6 x 10^-10 m^2/s. Tunnelling is therefore not a candidate for the overestimate. The correction with the opposite sign is the zero-point energy of the two modes transverse to the path, which are stiffer at the saddle inside the Pd triangle than in the octahedral cage and raise the effective barrier. Path-integral calculations find that nuclear quantum effects increase the activation barrier in unstrained Pd (Kimizuka, Ogata and Shiga, Phys. Rev. B 97, 014102, 2018). The transverse modes were not calculated in this project.
 
 ## Sensitivity to the estimators
 
@@ -166,4 +193,4 @@ A force-converged rerun of the thirteen stage-2 calculations, continued from the
 
 ## What limits the accuracy
 
-In order of expected size: the PBE barrier (tens of meV), the missing zero-point energy (hbar omega differs by 66 meV between the O and T wells along the path alone), the one-dimensional harmonic prefactor, the coarse k-point grid and the 32-atom cell, the incomplete force convergence of the relaxations (meV level in the energies, see above), and the neglect of correlated O to T to O return jumps. None of these was converged or corrected in the project; they are listed so the numbers above are read with the right error bars.
+In order of expected size: the PBE barrier (tens of meV), the missing zero-point energy of the modes transverse to the path (along the path alone hbar omega already differs by 66 meV between the O and T wells), the one-dimensional harmonic prefactor, the coarse k-point grid and the 32-atom cell, the incomplete force convergence of the relaxations (meV level in the energies, see above), and the neglect of correlated O to T to O return jumps. None of these was converged or corrected in the project; they are listed so the numbers above are read with the right error bars.

@@ -17,7 +17,7 @@ A practical record of the workflow, written so that the calculations in `calcula
 Metals need fractional occupations, so every run carries the Mermin block with the tetrahedron method. The wave functions are converged before the atoms are allowed to move:
 
 1. `START=T`, only `!PSIDYN`: damped dynamics of the wave functions with the atoms frozen, until the automatic stop criterion.
-2. `START=F` plus `!RDYN`: restart from the stage-1 restart file, propagate atoms and wave functions together with friction, until the forces are relaxed.
+2. `START=F` plus `!RDYN`: restart from the stage-1 restart file, propagate atoms and wave functions together with friction, until the automatic stop criterion, which tests the energy and the ionic kinetic energy and not the forces (see Convergence control below).
 
 Both stages of every run are committed. Stage-2 protocols in this project contain two consecutive runs because the code appends to the protocol; the parsers use the last run.
 

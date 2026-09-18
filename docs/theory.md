@@ -42,6 +42,22 @@ The factor 1/2 is the Einstein relation <dr (x) dr> = 2 D t; for a one-dimension
 
 The Born-Oppenheimer profile does not depend on the mass, so in classical harmonic TST an isotope only rescales the attempt frequencies by sqrt(m_H / m): D_D / D_H = 0.707 and D_T / D_H = 0.577 at every temperature (`pdhdiff.tst.with_mass`). The measured isotope effect of hydrogen in metals is dominated by zero-point energy and tunnelling, so this classical ratio is a reference point, not a prediction.
 
+## Quantum estimates from the path mode
+
+Two quantum corrections can be read off a one-dimensional profile, and the code evaluates both without folding them into D(T).
+
+The top of the barrier is an inverted parabola with curvature -k_b, which defines the imaginary frequency omega_b = sqrt(k_b / m) of the unstable mode. The leading tunnelling correction to the classical rate is the Wigner factor
+
+```
+kappa = 1 + (hbar omega_b / k_B T)^2 / 24
+```
+
+valid well above the crossover temperature T_c = hbar omega_b / (2 pi k_B), below which tunnelling through the barrier dominates over hopping across it (`wigner_correction`, `crossover_temperature`). Here hbar omega_b = 79 meV, T_c = 146 K and kappa(298 K) = 1.39.
+
+Replacing the classical partition function k_B T / hbar omega_0 of the well mode by the quantum one, 1 / (2 sinh(hbar omega_0 / 2 k_B T)), multiplies the rate by sinh(x) / x with x = hbar omega_0 / 2 k_B T (`quantum_well_factor`), 1.09 for the octahedral well at 298 K. To leading order this is 1 + x^2 / 6, the zero-point energy of the path mode being lost at the saddle.
+
+Both factors are larger than one. The transverse modes act in the opposite direction: H is squeezed harder in the Pd triangle than in the octahedral cage, so the zero-point energy of the two modes perpendicular to the path is larger at the saddle than in the well, and the effective barrier rises. Those frequencies need force constants perpendicular to the path, which this set of calculations does not contain.
+
 ## What is left out
 
-Zero-point energy of the H atom (hbar omega is 38 meV at O and 103 meV at T along the path, and different again at the saddle), tunnelling, the full 3N-dimensional harmonic prefactor of Vineyard's theory, anharmonic corrections to the wells, correlated return jumps from T back to the same O, finite-size and k-point convergence of the DFT energies, and the PBE error in the barrier itself. Each of these is a known correction; none was applied.
+Zero-point energy of the H atom (hbar omega is 38 meV at O and 103 meV at T along the path, and different again at the saddle), tunnelling beyond the Wigner estimate above, the full 3N-dimensional harmonic prefactor of Vineyard's theory, anharmonic corrections to the wells, correlated return jumps from T back to the same O, finite-size and k-point convergence of the DFT energies, and the PBE error in the barrier itself. Each of these is a known correction; none was applied.

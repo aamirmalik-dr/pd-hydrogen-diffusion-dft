@@ -65,6 +65,7 @@ Numbers below are produced by `python scripts/run_all.py` from the committed pro
 | Activation energy T to O | 119 meV |
 | Curvature at O along the path | 0.97 eV per g^2, 5.5 N/m, hbar omega = 37.6 meV |
 | Curvature at T along the path | 7.3 eV per g^2, 41 N/m, hbar omega = 103 meV |
+| Curvature at the barrier top | -4.3 eV per g^2, unstable mode hbar omega = 79 meV (spline: 73 meV) |
 | Largest Pd displacement along the path | 0.10 A at g = 0.7 (the three triangle atoms open the gate) |
 | D(298 K), harmonic TST | 2.4 x 10^-10 m^2/s |
 | D(298 K), experiment (Powell and Kirkpatrick 1991) | 3.2 x 10^-11 m^2/s |
@@ -73,7 +74,11 @@ Numbers below are produced by `python scripts/run_all.py` from the committed pro
 
 The barrier lies beyond the Pd triangle (g = 2/3) on the tetrahedral side. The octahedral well is soft and nearly harmonic; the tetrahedral well is stiff and strongly anharmonic because moving past g = 1 heads straight into a Pd atom, so its curvature comes from a fit with a cubic term to the three points nearest to T.
 
-The computed diffusion constant is a factor 7 too fast at room temperature while the activation energy is 30 meV too low. Both point the same way: PBE underestimates the barrier, and zero-point motion of the light H atom, which is larger in the stiff tetrahedral well and at the saddle, is neglected. The order of magnitude and the temperature dependence come out right, which is what a one-dimensional harmonic treatment can deliver.
+The computed diffusion constant is a factor 7.4 too fast at room temperature and the activation energy 32 meV too low. The measured D(298 K) together with the quoted activation energy implies an experimental prefactor of 2.5 x 10^-7 m^2/s, so the ratio splits into a factor 3.5 from the barrier and a factor 2.1 from the prefactor. Most of the discrepancy is thus a barrier error of about 30 meV, which is within what PBE, the coarse k-point grid and the neglected zero-point energy can each produce. The order of magnitude and the temperature dependence come out right, which is what a one-dimensional harmonic treatment can deliver.
+
+### What the profile says about quantum effects
+
+The curvature at the top of the barrier gives the unstable mode, hbar omega = 79 meV, and with it a crossover temperature to tunnelling of 146 K and a Wigner factor of 1.39 at 298 K. Treating the octahedral well mode along the path quantum mechanically adds a factor 1.09. Both exceed one: every quantum correction a one-dimensional profile can supply makes D larger, by a combined factor 1.5, and the disagreement worse. Tunnelling therefore does not explain the overestimate. The correction with the right sign is the zero-point energy of the two modes transverse to the path, which are stiffer in the Pd triangle than in the octahedral cage and raise the effective barrier; path-integral calculations find that nuclear quantum effects increase the activation barrier in unstrained Pd (Kimizuka, Ogata and Shiga 2018). Those transverse modes were not calculated here, so the headline numbers stay classical and the estimates are reported separately in the `quantum_estimates` block of `results/metrics.json`.
 
 ### Conventions in the diffusion constant
 
@@ -83,7 +88,7 @@ The two-sublattice master-equation result is evaluated as
 D = 1/2 sum_i P_i sum_j Gamma(j <- i) |r_j - r_i|^2 / 3
 ```
 
-with the factor 1/2 of the Einstein relation, sublattice populations P_oct and P_tet from the one-dimensional harmonic wells, and hop rates Gamma = (omega_0 / 2 pi) exp(-E_a / k_B T). With these choices the forward and backward fluxes between the sublattices balance exactly (`detailed_balance_ratio_300K = 1.000` in the metrics file), so the two terms of the sum are equal and D reduces to P_oct Gamma(T <- O) a^2 / 2. The Arrhenius figure also shows three alternative conventions: Boltzmann populations without a vibrational prefactor, the three-dimensional harmonic prefactor of the project description, and the expression without the factor 1/2 as it was used on the seminar slides. They change D(298 K) by at most a factor 1.8 and do not alter the conclusion.
+with the factor 1/2 of the Einstein relation, sublattice populations P_oct and P_tet from the one-dimensional harmonic wells, and hop rates Gamma = (omega_0 / 2 pi) exp(-E_a / k_B T). With these choices the forward and backward fluxes between the sublattices balance exactly (`detailed_balance_ratio_300K = 1.000` in the metrics file), so the two terms of the sum are equal and D reduces to P_oct Gamma(T <- O) a^2 / 2. The Arrhenius figure also shows the measured 298 K value continued with the quoted experimental activation energy of 0.23 eV, and three alternative conventions: Boltzmann populations without a vibrational prefactor, the three-dimensional harmonic prefactor of the project description, and the expression without the factor 1/2 as it was used on the seminar slides. They change D(298 K) by at most a factor 1.8 and do not alter the conclusion.
 
 ### Uncertainty budget
 
@@ -92,7 +97,8 @@ with the factor 1/2 of the Einstein relation, sublattice populations P_oct and P
 | Choice of barrier and curvature estimators (local cubic, spline, raw maximum; least squares or two-point curvatures) | 2.4 to 3.1 x 10^-10 m^2/s | `sensitivity` block of `results/metrics.json` |
 | Population and Einstein-factor conventions | 1.4 to 4.3 x 10^-10 m^2/s | `alternatives_d_298K_m2_s` in `results/metrics.json` |
 | Incomplete force convergence of the relaxations | about 1 meV in the profile, negligible for D; geometries to 0.02 A | `results/relaxation_diagnostics.json` |
-| k-point grid, cell size, cutoff, PBE, zero-point energy, tunnelling | not quantified; the last two are the likely cause of the factor 7 | |
+| Tunnelling and the quantum path mode (Wigner factor, one-dimensional) | factor 1.5 upward, away from experiment | `quantum_estimates` in `results/metrics.json` |
+| k-point grid, cell size, cutoff, PBE, zero-point energy of the transverse modes | not quantified; together they have to account for a barrier about 30 meV too low | |
 
 Classical isotope scaling of the same model gives D_D / D_H = 0.71 and D_T / D_H = 0.58; the real isotope effect is quantum and outside this treatment.
 
@@ -128,7 +134,7 @@ cd pd-hydrogen-diffusion-dft
 python -m venv .venv && .venv/Scripts/activate      # or source .venv/bin/activate
 pip install -e .[dev]
 python scripts/run_all.py      # profile, TST analysis, electronic structure, path figures
-pytest -q                      # 20 tests: parsers, geometry, fits, regression against results/
+pytest -q                      # parsers, geometry, fits, figures, regression against results/
 ```
 
 Individual steps, also reachable through the `pdhdiff` console script:
@@ -153,7 +159,7 @@ Continuous integration runs the tests, the linters and the full chain followed b
 calculations/   CP-PAW inputs (.strc, .cntl), gzipped protocols (.prot.gz), DOS and band data
   01_pd_primitive/  02_pd_supercell/  03_h_octahedral/  03_h_tetrahedral/  04_path_octa_to_tetra/g_0.0 ... g_1.0
 src/pdhdiff/    cppaw_io (parsers), structure (fcc sites, reaction coordinate, constraint block),
-                profile (energy profile and fits), tst (rates, populations, D), plotting, cli
+                profile (energy profile and fits), tst (rates, populations, D, quantum estimates), plotting, cli
 scripts/        the processing steps, run_all.py, check_reproduction.py
 results/        profile.csv, sites.json, metrics.json, diffusion_vs_T.csv, relaxation_diagnostics.json,
                 path_trajectory.xyz (extended xyz, readable by ASE), RESULTS.md
@@ -165,14 +171,16 @@ tests/          pytest suite
 
 ## Scope, honestly
 
-This is a course-scale calculation and is reported as such. One 32-atom supercell, 8 k-points, no cutoff or cell-size convergence study, relaxations converged in energy but not in force, no zero-point or tunnelling corrections, no quantum isotope effect, a one-dimensional reaction coordinate instead of a nudged-elastic-band search, harmonic wells with the curvature taken along the path only, and uncorrelated hops. The barrier and the diffusion constant are therefore accurate to tens of meV and to an order of magnitude respectively, which is the level the comparison with experiment shows. The DFT runs themselves are not rerun here; the repository contains their complete inputs and outputs and the code that turns them into the numbers above.
+This is a course-scale calculation and is reported as such. One 32-atom supercell, 8 k-points, no cutoff or cell-size convergence study, relaxations converged in energy but not in force, no zero-point correction, tunnelling only as a Wigner estimate, no quantum isotope effect, a one-dimensional reaction coordinate instead of a nudged-elastic-band search, harmonic wells with the curvature taken along the path only, and uncorrelated hops. The barrier and the diffusion constant are therefore accurate to tens of meV and to an order of magnitude respectively, which is the level the comparison with experiment shows. The DFT runs themselves are not rerun here; the repository contains their complete inputs and outputs and the code that turns them into the numbers above.
 
 ## References
 
 - P. E. Blöchl, Projector augmented-wave method, Phys. Rev. B 50, 17953 (1994). CP-PAW: https://cppaw.org
 - G. H. Vineyard, Frequency factors and isotope effects in solid state rate processes, J. Phys. Chem. Solids 3, 121 (1957).
+- E. Wigner, Über das Überschreiten von Potentialschwellen bei chemischen Reaktionen, Z. Phys. Chem. B 19, 203 (1932).
 - G. L. Powell and J. R. Kirkpatrick, Surface conductance and the diffusion of H and D in Pd, Phys. Rev. B 43, 6968 (1991).
 - J. Völkl and G. Alefeld, in Hydrogen in Metals I, Topics in Applied Physics 28, Springer (1978).
+- H. Kimizuka, S. Ogata and M. Shiga, Mechanism of fast lattice diffusion of hydrogen in palladium: Interplay of quantum fluctuations and lattice strain, Phys. Rev. B 97, 014102 (2018).
 - K. Lee, M. Yuan and J. Wilcox, Understanding deviations in hydrogen solubility predictions in transition metals through first-principles calculations, J. Phys. Chem. C 119, 19642 (2015).
 
 ## Acknowledgements
