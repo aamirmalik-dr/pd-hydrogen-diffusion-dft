@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: Malik
     given-names: Aamir
-version: 0.2.0
-date-released: "2026-09-11"
+version: 0.3.0
+date-released: "2026-09-18"
 license: MIT
 repository-code: "https://github.com/aamirmalik-dr/pd-hydrogen-diffusion-dft"
 keywords:

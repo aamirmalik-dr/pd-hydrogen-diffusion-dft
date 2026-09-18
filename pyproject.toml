@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pdhdiff"
-version = "0.2.0"
+version = "0.3.0"
 description = "Post-processing of CP-PAW density-functional calculations of hydrogen diffusion in fcc palladium: energy profile, transition-state theory, diffusion constant"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -51,6 +51,10 @@ src = ["src", "tests", "scripts"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+# the walkthrough prints wide tables; line length is not enforced in notebook cells
+"notebooks/*.ipynb" = ["E501", "E702"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
