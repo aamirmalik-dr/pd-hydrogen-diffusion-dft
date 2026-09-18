@@ -15,7 +15,13 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 
-from pdhdiff.constants import D_EXP_298K_M2_S, HARTREE_EV, KB_EV  # noqa: E402
+from pdhdiff.constants import (  # noqa: E402
+    BOHR_ANG,
+    D_EXP_298K_M2_S,
+    EA_EXP_EV,
+    HARTREE_EV,
+    KB_EV,
+)
 from pdhdiff.profile import BarrierFit, WellFit, spline_curve  # noqa: E402
 from pdhdiff.tst import DiffusionResult  # noqa: E402
 
@@ -181,6 +187,9 @@ def plot_arrhenius(
 ):
     """``ln D`` against ``1 / k_B T`` with the experimental room-temperature value.
 
+    The experimental line is the measured 298 K value continued with the quoted
+    activation energy, not an independent set of measurements.
+
     Args:
         result: Primary diffusion result.
         ea_fit_ev: Fitted activation energy of the primary curve.
@@ -210,6 +219,15 @@ def plot_arrhenius(
                 label=name,
             )
     x298 = 1 / (KB_EV * 298.0)
+    # the measured point continued with the quoted experimental activation energy
+    ax.plot(
+        x,
+        np.log(D_EXP_298K_M2_S) - EA_EXP_EV * (x - x298),
+        color=INK,
+        lw=1.0,
+        ls=(0, (1, 1.5)),
+        label=f"experiment, slope E$_a$ = {EA_EXP_EV:.2f} eV through the 298 K value",
+    )
     ax.plot(
         x298,
         np.log(D_EXP_298K_M2_S),
@@ -222,7 +240,7 @@ def plot_arrhenius(
     d298 = float(np.interp(298.0, result.temperature_k, result.d_m2_s))
     ax.text(
         0.03,
-        0.06,
+        0.04,
         f"this work: D(298 K) = {d298:.1e} m$^2$/s, E$_a$ = {ea_fit_ev:.3f} eV, "
         f"D$_0$ = {d0_fit:.1e} m$^2$/s\nexperiment: D(298 K) = {D_EXP_298K_M2_S:.1e} m$^2$/s",
         transform=ax.transAxes,
@@ -238,6 +256,9 @@ def plot_arrhenius(
     sec.set_xticks(1 / (KB_EV * t_ticks))
     sec.set_xticklabels([f"{t:d} K" for t in t_ticks])
     sec.tick_params(colors=INK2)
+    # room above for the legend and below for the summary text
+    lo, hi = ax.get_ylim()
+    ax.set_ylim(lo - 0.2 * (hi - lo), hi + 0.3 * (hi - lo))
     ax.legend(loc="upper right", fontsize=8)
     ax.set_title("Arrhenius plot of the diffusion constant", loc="left", fontsize=11)
     return fig
@@ -515,7 +536,7 @@ def plot_relaxation_diagnostics(hist_t, hist_o, k_radial_ev_ang2, r_zero, lam_ro
     """
     _style()
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.0, 4.2))
-    mh_to_ev_a = 1e-3 * HARTREE_EV / 0.529177210903
+    mh_to_ev_a = 1e-3 * HARTREE_EV / BOHR_ANG
     for hist, col, label in (
         (hist_t, ORANGE, "tetrahedral cage atom PD03"),
         (hist_o, BLUE, "octahedral cage atom PD04"),
@@ -523,7 +544,10 @@ def plot_relaxation_diagnostics(hist_t, hist_o, k_radial_ev_ang2, r_zero, lam_ro
         r = np.array([h["distance_to_h_ang"] for h in hist])
         f = np.array([h["radial_force_outward_mh_bohr"] for h in hist]) * mh_to_ev_a
         ax1.plot(r, f, "o-", color=col, lw=1.6, ms=6, label=label)
-        for h, ri, fi in zip(hist, r, f):
+        # the octahedral cage barely moves; label only its end points to keep them legible
+        labelled = range(len(hist)) if hist is hist_t else (0, len(hist) - 1)
+        for i in labelled:
+            h, ri, fi = hist[i], r[i], f[i]
             ax1.annotate(
                 str(h["nfi"]),
                 (ri, fi),

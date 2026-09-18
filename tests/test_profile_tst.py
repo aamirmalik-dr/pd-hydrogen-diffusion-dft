@@ -18,10 +18,13 @@ from pdhdiff.tst import (
     SiteModel,
     arrhenius_fit,
     attempt_frequency,
+    crossover_temperature,
     diffusion_constant,
     force_constant_si,
     jump_rate,
+    quantum_well_factor,
     site_populations,
+    wigner_correction,
 )
 
 
@@ -107,3 +110,45 @@ def test_diffusion_regression(metrics):
     assert abs(d["detailed_balance_ratio_300K"] - 1.0) < 1e-6
     table = {row["T_K"]: row["d_m2_s"] for row in d["table"]}
     assert table[200] < table[300] < table[600] < table[1000]
+
+
+def test_barrier_curvature_of_an_exact_cubic():
+    # E = 3 g^2 - 2 g^3 has its maximum at g = 1 with E'' = -6
+    g = np.linspace(0.0, 1.5, 16)
+    fit = locate_barrier(g, 3 * g**2 - 2 * g**3)
+    assert fit.g_ts == pytest.approx(1.0, abs=1e-3)
+    assert fit.k_ts_g_ev == pytest.approx(6.0, rel=1e-3)  # maximum located on a grid
+    assert fit.k_ts_spline_g_ev == pytest.approx(6.0, rel=1e-3)
+
+
+def test_quantum_factors_have_the_right_limits():
+    omega = 1.2e14  # hbar omega = 79 meV
+    # both corrections vanish in the classical limit and exceed one otherwise
+    assert wigner_correction(omega, 1e6) == pytest.approx(1.0, abs=1e-6)
+    assert quantum_well_factor(omega, 1e6) == pytest.approx(1.0, abs=1e-6)
+    assert wigner_correction(omega, 298.0) > 1.0
+    assert quantum_well_factor(omega, 298.0) > 1.0
+    # at the crossover temperature hbar omega / k_B T = 2 pi
+    t_c = crossover_temperature(omega)
+    assert wigner_correction(omega, t_c) == pytest.approx(1.0 + (2 * np.pi) ** 2 / 24.0)
+    # to second order in hbar omega / k_B T the well factor is 1 + x^2 / 24 as well
+    x = 0.05
+    t = 6.582119569e-16 * omega / (KB_EV * x)
+    assert quantum_well_factor(omega, t) - 1.0 == pytest.approx(x**2 / 24.0, rel=1e-3)
+
+
+def test_quantum_estimates_and_decomposition_in_metrics(metrics):
+    qe = metrics["quantum_estimates"]
+    assert 60.0 < qe["hbar_omega_barrier_meV"]["local_cubic"] < 95.0
+    assert 60.0 < qe["hbar_omega_barrier_meV"]["spline"] < 95.0
+    assert qe["crossover_temperature_K"] < 200.0  # below the temperature grid of the analysis
+    assert qe["combined_factor_298K"] == pytest.approx(
+        qe["wigner_factor_298K"] * qe["octahedral_well_factor_298K"]
+    )
+    ce = metrics["comparison_with_experiment"]
+    assert ce["factor_from_barrier_298K"] * ce["factor_from_prefactor_298K"] == pytest.approx(
+        ce["ratio_calc_over_experiment_298K"]
+    )
+    assert ce["ratio_calc_over_experiment_298K"] == pytest.approx(
+        metrics["diffusion"]["ratio_calc_over_experiment_298K"]
+    )

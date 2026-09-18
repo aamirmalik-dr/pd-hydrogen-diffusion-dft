@@ -19,6 +19,7 @@ from pdhdiff.constants import (
     A_PD_ANG,
     D_EXP_298K_M2_S,
     EA_EXP_EV,
+    KB_EV,
     MASS_D_AMU,
     MASS_H_AMU,
     MASS_T_AMU,
@@ -35,9 +36,12 @@ from pdhdiff.tst import (
     SiteModel,
     arrhenius_fit,
     attempt_frequency,
+    crossover_temperature,
     diffusion_constant,
     force_constant_si,
+    quantum_well_factor,
     vibrational_quantum_mev,
+    wigner_correction,
     with_mass,
 )
 
@@ -98,6 +102,63 @@ def sensitivity(
         "d_298K_single_factor_m2_s": single,
         "d_298K_min_m2_s": min(grid),
         "d_298K_max_m2_s": max(grid),
+    }
+
+
+def quantum_estimates(barrier, w_o: float, length: float) -> dict:
+    """Quantum corrections that the one-dimensional profile itself can supply.
+
+    The barrier curvature gives the imaginary frequency of the unstable mode and
+    with it the Wigner tunnelling factor and the crossover temperature; the
+    octahedral well frequency gives the quantum correction of the path mode. Both
+    factors multiply the O to T rate and therefore D, which is dominated by hops
+    out of the octahedral sites.
+    """
+    w_b = attempt_frequency(force_constant_si(barrier.k_ts_g_ev, length))
+    w_b_spline = attempt_frequency(force_constant_si(barrier.k_ts_spline_g_ev, length))
+    wigner = float(wigner_correction(w_b, 298.0))
+    well = float(quantum_well_factor(w_o, 298.0))
+    return {
+        "note": "Corrections to the classical O to T rate from the path mode only. Both are "
+        "larger than one, so they widen the gap to experiment; the zero-point energy of the "
+        "modes transverse to the path is not available from a one-dimensional profile.",
+        "barrier_curvature_eV_per_g2": {
+            "local_cubic": barrier.k_ts_g_ev,
+            "spline": barrier.k_ts_spline_g_ev,
+        },
+        "hbar_omega_barrier_meV": {
+            "local_cubic": vibrational_quantum_mev(w_b),
+            "spline": vibrational_quantum_mev(w_b_spline),
+        },
+        "crossover_temperature_K": crossover_temperature(w_b),
+        "wigner_factor_298K": wigner,
+        "wigner_factor_298K_spline_curvature": float(wigner_correction(w_b_spline, 298.0)),
+        "octahedral_well_factor_298K": well,
+        "combined_factor_298K": wigner * well,
+    }
+
+
+def experiment_decomposition(d_298: float, ea_fit: float, d0_fit: float) -> dict:
+    """Split the ratio to the measured D(298 K) into a barrier and a prefactor part.
+
+    The measured room-temperature value together with the quoted experimental
+    activation energy implies a prefactor ``D_0 = D exp(E_a / k_B T)``. The barrier
+    part is ``exp((E_a,exp - E_a,calc) / k_B T)`` at 298 K, the prefactor part is
+    the rest of the ratio.
+    """
+    kt = KB_EV * 298.0
+    ratio = d_298 / D_EXP_298K_M2_S
+    barrier_factor = float(np.exp((EA_EXP_EV - ea_fit) / kt))
+    d0_implied = float(D_EXP_298K_M2_S * np.exp(EA_EXP_EV / kt))
+    return {
+        "note": "Experimental prefactor implied by D(298 K) and the quoted activation energy; "
+        "it is not an independent measurement.",
+        "d0_experiment_implied_m2_s": d0_implied,
+        "d0_calc_over_implied": d0_fit / d0_implied,
+        "ea_deficit_meV": (EA_EXP_EV - ea_fit) * 1e3,
+        "factor_from_barrier_298K": barrier_factor,
+        "factor_from_prefactor_298K": ratio / barrier_factor,
+        "ratio_calc_over_experiment_298K": ratio,
     }
 
 
@@ -218,6 +279,8 @@ def main() -> None:
             ],
             "alternatives_d_298K_m2_s": {k: at(v, 298.0) for k, v in alternatives.items()},
         },
+        "comparison_with_experiment": experiment_decomposition(at(primary, 298.0), ea_fit, d0_fit),
+        "quantum_estimates": quantum_estimates(barrier, w_o, length),
         "sensitivity": sensitivity(model, barrier, well_o, well_t, float(e[-1]), length, geo),
         "isotopes_classical": {
             "note": "Classical harmonic TST with the same profile: only the attempt "
@@ -289,6 +352,18 @@ def main() -> None:
     )
     for name, res in alternatives.items():
         print(f"  alternative {name}: D(298 K) = {at(res, 298):.3e} m^2/s")
+    qe = metrics["quantum_estimates"]
+    print(
+        f"barrier mode: hbar w_b = {qe['hbar_omega_barrier_meV']['local_cubic']:.1f} meV, "
+        f"crossover T = {qe['crossover_temperature_K']:.0f} K, Wigner factor at 298 K = "
+        f"{qe['wigner_factor_298K']:.2f}, O well factor = {qe['octahedral_well_factor_298K']:.2f}"
+    )
+    ce = metrics["comparison_with_experiment"]
+    print(
+        f"ratio to experiment {ce['ratio_calc_over_experiment_298K']:.1f} = "
+        f"{ce['factor_from_barrier_298K']:.1f} (barrier) x "
+        f"{ce['factor_from_prefactor_298K']:.1f} (prefactor)"
+    )
     print(
         "detailed-balance ratio at 300 K: "
         f"{metrics['diffusion']['detailed_balance_ratio_300K']:.3f}"

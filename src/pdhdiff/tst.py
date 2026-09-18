@@ -14,6 +14,10 @@ where ``P_i`` are equilibrium site populations and the geometric sums run over
 the hop targets of a site. The factor 1/2 is the Einstein relation
 ``<dr (x) dr> = 2 D t``; the project description prints the expression without
 it and the code can reproduce that convention with ``einstein_half=False``.
+
+The rates are classical. :func:`wigner_correction`, :func:`crossover_temperature`
+and :func:`quantum_well_factor` estimate the quantum corrections that the path mode
+alone can supply; they are reported next to the classical result, not folded into it.
 """
 
 from __future__ import annotations
@@ -54,6 +58,51 @@ def jump_rate(omega: float, ea_ev: float, temperature_k) -> np.ndarray:
     """Harmonic TST rate per pathway, ``(omega / 2 pi) exp(-E_a / k_B T)``, in 1/s."""
     t = np.asarray(temperature_k, dtype=float)
     return omega / (2 * np.pi) * np.exp(-ea_ev / (KB_EV * t))
+
+
+def wigner_correction(omega_barrier: float, temperature_k) -> np.ndarray:
+    """Wigner tunnelling factor ``1 + (hbar omega_b / k_B T)^2 / 24`` of a parabolic barrier.
+
+    The leading quantum correction to the classical rate of crossing a barrier
+    whose unstable mode has the imaginary frequency ``i omega_b``. It is valid for
+    shallow tunnelling, well above :func:`crossover_temperature`.
+
+    Args:
+        omega_barrier: Magnitude of the imaginary barrier frequency in rad/s.
+        temperature_k: Temperature or array of temperatures in kelvin.
+
+    Returns:
+        The factor multiplying the classical rate, always larger than one.
+    """
+    t = np.asarray(temperature_k, dtype=float)
+    return 1.0 + (HBAR_EV_S * omega_barrier / (KB_EV * t)) ** 2 / 24.0
+
+
+def crossover_temperature(omega_barrier: float) -> float:
+    """Temperature ``hbar omega_b / (2 pi k_B)`` below which tunnelling dominates, in kelvin."""
+    return HBAR_EV_S * omega_barrier / (2 * np.pi * KB_EV)
+
+
+def quantum_well_factor(omega: float, temperature_k) -> np.ndarray:
+    """Ratio of the quantum to the classical harmonic rate for the well mode alone.
+
+    Replacing the classical partition function ``k_B T / hbar omega`` of the mode
+    along the path by the quantum one ``1 / (2 sinh(hbar omega / 2 k_B T))``, with
+    the barrier still measured from the bottom of the well, multiplies the rate by
+    ``sinh(x) / x`` with ``x = hbar omega / 2 k_B T``. The factor is larger than one
+    because the zero-point energy of this mode is lost at the saddle. The modes
+    transverse to the path, which are stiffer at the saddle than in the well and act
+    in the opposite direction, are not contained in a one-dimensional profile.
+
+    Args:
+        omega: Angular frequency of the well along the path in rad/s.
+        temperature_k: Temperature or array of temperatures in kelvin.
+
+    Returns:
+        The factor multiplying the classical rate.
+    """
+    x = HBAR_EV_S * omega / (2 * KB_EV * np.asarray(temperature_k, dtype=float))
+    return np.sinh(x) / x
 
 
 @dataclass

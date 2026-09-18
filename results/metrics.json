@@ -14,7 +14,9 @@
       "g_ts_spline": 0.6478,
       "e_ts_spline_ev": 0.20304390196123898,
       "e_raw_max_ev": 0.1987791765293261,
-      "g_raw_max": 0.6
+      "g_raw_max": 0.6,
+      "k_ts_g_ev": 4.266958701111755,
+      "k_ts_spline_g_ev": 3.644084054066571
     },
     "e_act_o_to_t_mev": 203.82132452241652,
     "e_act_t_to_o_mev": 119.3979986923836,
@@ -111,6 +113,31 @@
       "populations from site energies only": 4.292691627729283e-10,
       "3D prefactor, no Einstein 1/2 (seminar convention)": 2.7786926803483274e-10
     }
+  },
+  "comparison_with_experiment": {
+    "note": "Experimental prefactor implied by D(298 K) and the quoted activation energy; it is not an independent measurement.",
+    "d0_experiment_implied_m2_s": 2.5198675118940466e-07,
+    "d0_calc_over_implied": 2.091946193192162,
+    "ea_deficit_meV": 32.11887634606325,
+    "factor_from_barrier_298K": 3.4929685255420924,
+    "factor_from_prefactor_298K": 2.1129590475113615,
+    "ratio_calc_over_experiment_298K": 7.380499448716585
+  },
+  "quantum_estimates": {
+    "note": "Corrections to the classical O to T rate from the path mode only. Both are larger than one, so they widen the gap to experiment; the zero-point energy of the modes transverse to the path is not available from a one-dimensional profile.",
+    "barrier_curvature_eV_per_g2": {
+      "local_cubic": 4.266958701111755,
+      "spline": 3.644084054066571
+    },
+    "hbar_omega_barrier_meV": {
+      "local_cubic": 78.97471322651724,
+      "spline": 72.98322173790164
+    },
+    "crossover_temperature_K": 145.8596947235613,
+    "wigner_factor_298K": 1.3940819717033297,
+    "wigner_factor_298K_spline_curvature": 1.33655536171584,
+    "octahedral_well_factor_298K": 1.09183937029322,
+    "combined_factor_298K": 1.5221135821216942
   },
   "sensitivity": {
     "note": "D(298 K) for each alternative estimator of one fitted quantity, the others at their primary values, and the min/max over all combinations.",

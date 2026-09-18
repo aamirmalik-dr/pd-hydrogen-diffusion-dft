@@ -60,7 +60,7 @@ class PathPoint:
     finished: bool
 
 
-def _ideal_pd_positions_ang(strc, a: float) -> np.ndarray:
+def _ideal_pd_positions_ang(strc) -> np.ndarray:
     return strc.cartesian()[[i for i, s in enumerate(strc.species) if s.upper() == "PD"]]
 
 
@@ -96,7 +96,7 @@ def analyse_point(point_dir: Path, a: float = A_PD_ANG) -> PathPoint:
     tri = np.array([prot.atom(n).position for n in TRIANGLE_LABELS])
     g_relaxed = reaction_coordinate(h_relaxed / a, tri / a)
 
-    pd_ideal = _ideal_pd_positions_ang(strc, a)
+    pd_ideal = _ideal_pd_positions_ang(strc)
     pd_relaxed = np.array([at.position for at in prot.atoms if at.element == "Pd"])
     disp = pd_relaxed - pd_ideal
     disp -= np.round(disp / (2 * a)) * 2 * a  # minimum image in the 2x2x2 cell
@@ -173,6 +173,10 @@ class BarrierFit:
         e_ts_spline_ev: Maximum energy from the spline.
         e_raw_max_ev: Highest calculated point.
         g_raw_max: Reaction coordinate of the highest calculated point.
+        k_ts_g_ev: Magnitude of the (negative) curvature of the local cubic at its
+            maximum, in eV per unit ``g^2``. It sets the imaginary frequency of the
+            unstable mode used in the tunnelling estimate.
+        k_ts_spline_g_ev: The same from the spline through all points.
     """
 
     g_ts: float
@@ -181,6 +185,8 @@ class BarrierFit:
     e_ts_spline_ev: float
     e_raw_max_ev: float
     g_raw_max: float
+    k_ts_g_ev: float
+    k_ts_spline_g_ev: float
 
 
 def locate_barrier(g: np.ndarray, e_ev: np.ndarray, n_local: int = 4) -> BarrierFit:
@@ -217,6 +223,8 @@ def locate_barrier(g: np.ndarray, e_ev: np.ndarray, n_local: int = 4) -> Barrier
         e_ts_spline_ev=float(sv[k]),
         e_raw_max_ev=float(e_ev[i_max]),
         g_raw_max=float(g[i_max]),
+        k_ts_g_ev=float(-np.polyval(np.polyder(coeff, 2), grid[j])),
+        k_ts_spline_g_ev=float(-spline(grid_all[k], 2)),
     )
 
 
