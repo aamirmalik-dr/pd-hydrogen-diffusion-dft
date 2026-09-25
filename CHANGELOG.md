@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- README links the related machine-learned interatomic potential repositories of the portfolio and shows the CI status badge.
+
 ## 0.3.0 (2026-09-18)
 
 - Quantum estimates from the one-dimensional profile: the curvature at the top of the barrier (local cubic and spline) gives the imaginary frequency of the unstable mode, the Wigner tunnelling factor and the crossover temperature; the octahedral well frequency gives the quantum correction of the path mode (`wigner_correction`, `crossover_temperature`, `quantum_well_factor` in `pdhdiff.tst`, block `quantum_estimates` in `results/metrics.json`). Both factors exceed one, so the write-up no longer lists tunnelling as a candidate for the overestimated diffusion constant.
