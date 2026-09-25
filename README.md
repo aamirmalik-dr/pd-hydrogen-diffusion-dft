@@ -187,6 +187,15 @@ This is a course-scale calculation and is reported as such. One 32-atom supercel
 
 The project was set up by the organisers of the CP-PAW Autumn School 2026 (https://cppaw.org/doku.php?id=handson:handson2026) and carried out together with Annika Kölle and Parsa Rahmani, who co-authored the seminar presentation in `docs/slides/`. The CP-PAW code is developed by Peter Blöchl and distributed under the GPL.
 
+## Related repositories
+
+The machine-learned interatomic potential repositories below use a pretrained universal potential as a surrogate teacher, never a density-functional code, and reach for real DFT only through published anchors. This repository is the one in the portfolio where the reference calculation itself is done and post-processed.
+
+- [mlip-descriptor-potential](https://github.com/aamirmalik-dr/mlip-descriptor-potential): Behler-Parrinello descriptor potential for BCC TiZrNb, benchmarked against tuned linear and pair-potential baselines.
+- [graph-neural-forcefield](https://github.com/aamirmalik-dr/graph-neural-forcefield): message-passing potential for BCC TiZrNb, benchmarked head to head against the descriptor approach at matched data and budget.
+- [alloy-mlip-bench](https://github.com/aamirmalik-dr/alloy-mlip-bench): the potentials deployed as ASE calculators and benchmarked property by property against pretrained foundation potentials.
+- [forcefield-active-learning](https://github.com/aamirmalik-dr/forcefield-active-learning): query-by-committee active learning for TiZrNb potentials, an honest label-budget benchmark against random selection.
+
 ## Author
 
 Aamir Malik
