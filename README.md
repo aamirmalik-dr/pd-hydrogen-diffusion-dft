@@ -4,7 +4,7 @@
 
 First-principles energy profile, jump rates and diffusion constant of interstitial hydrogen in fcc palladium, computed with the CP-PAW code and post-processed with the Python package in this repository.
 
-*Origin: group project at the International CP-PAW Autumn School (Hands-on Course on Density Functional Calculations), Göttingen, 31 August to 11 September 2026. The DFT runs were carried out on the school cluster by the project team; the post-processing code, figures and this write-up were built afterwards from the raw CP-PAW output.*
+*Origin: group project at the International CP-PAW Autumn School (Hands-on Course on Density-Functional Calculations), Göttingen, 31 August to 11 September 2026. The DFT runs were carried out on the school cluster by the project team; the post-processing code, figures and this write-up were built afterwards from the raw CP-PAW output.*
 
 ![Energy profile of the octahedral to tetrahedral hop and Arrhenius plot of the diffusion constant](figures/hero_profile_arrhenius.png)
 
