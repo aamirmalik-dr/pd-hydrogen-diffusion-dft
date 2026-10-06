@@ -4,7 +4,7 @@
 
 First-principles energy profile, jump rates and diffusion constant of interstitial hydrogen in fcc palladium, computed with the CP-PAW code and post-processed with the Python package in this repository.
 
-*Origin: group project at the International CP-PAW Autumn School, Hands-on Course on Density-Functional Calculations, Göttingen, 31 August to 11 September 2026. The DFT runs were carried out on the school cluster by the project team; the post-processing code, figures and this write-up were built afterwards from the raw CP-PAW output.*
+*Origin: group project at the International CP-PAW Autumn School (Hands-on Course on Density Functional Calculations), Göttingen, 31 August to 11 September 2026. The DFT runs were carried out on the school cluster by the project team; the post-processing code, figures and this write-up were built afterwards from the raw CP-PAW output.*
 
 ![Energy profile of the octahedral to tetrahedral hop and Arrhenius plot of the diffusion constant](figures/hero_profile_arrhenius.png)
 
@@ -185,7 +185,7 @@ This is a course-scale calculation and is reported as such. One 32-atom supercel
 
 ## Acknowledgements
 
-The project was set up by the organisers of the CP-PAW Autumn School 2026 (https://cppaw.org/doku.php?id=handson:handson2026) and carried out together with Annika Kölle and Parsa Rahmani, who co-authored the seminar presentation in `docs/slides/`. The CP-PAW code is developed by Peter Blöchl and distributed under the GPL.
+The project was set up by the organisers of the International CP-PAW Autumn School 2026 (https://cppaw.org/doku.php?id=handson:handson2026) and carried out together with Annika Kölle and Parsa Rahmani, who co-authored the seminar presentation in `docs/slides/`. The CP-PAW code is developed by Peter Blöchl and distributed under the GPL.
 
 ## Related repositories
 

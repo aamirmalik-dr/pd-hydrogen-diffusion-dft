@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- README names the school by its official title, Hands-on Course on Density Functional Calculations - International CP-PAW Autumn School.
 - README links the related machine-learned interatomic potential repositories of the portfolio and shows the CI status badge.
 
 ## 0.3.0 (2026-09-18)
